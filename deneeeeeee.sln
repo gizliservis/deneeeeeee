@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31911.196
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "deneeeeeee", "deneeeeeee\deneeeeeee.csproj", "{A88E7CDA-F15B-4481-ABA6-B87C7F5C9370}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tumtek", "FtpYedek\Tumtek.csproj", "{4CD9971E-54D5-4E7E-B173-6038B19B4920}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TumteekBir", "TumteekBir\TumteekBir.vdproj", "{F77D7FE4-071A-418D-A837-732315C5E635}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A88E7CDA-F15B-4481-ABA6-B87C7F5C9370}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A88E7CDA-F15B-4481-ABA6-B87C7F5C9370}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A88E7CDA-F15B-4481-ABA6-B87C7F5C9370}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A88E7CDA-F15B-4481-ABA6-B87C7F5C9370}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CD9971E-54D5-4E7E-B173-6038B19B4920}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CD9971E-54D5-4E7E-B173-6038B19B4920}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CD9971E-54D5-4E7E-B173-6038B19B4920}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CD9971E-54D5-4E7E-B173-6038B19B4920}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F77D7FE4-071A-418D-A837-732315C5E635}.Debug|Any CPU.ActiveCfg = Debug
+		{F77D7FE4-071A-418D-A837-732315C5E635}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B302160B-5912-4128-A57A-5B1E6F24B3A9}
+	EndGlobalSection
+EndGlobal
