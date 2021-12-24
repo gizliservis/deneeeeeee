@@ -940,6 +940,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -2874,6 +2882,13 @@
         }
         "LaunchCondition"
         {
+            "{836E08B8-0285-4809-BA42-01DB6754A45D}:_B80170C3323A4CA2BBC36B49FCE9B6F1"
+            {
+            "Name" = "8:Condition1"
+            "Condition" = "8:REGISTRYVALUE1"
+            "Message" = "8:<Error Message>"
+            "InstallUrl" = "8:"
+            }
         }
         "Locator"
         {
@@ -2888,7 +2903,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:TumteekBir"
         "ProductCode" = "8:{2C9CBCE1-4AD8-4446-B414-9D443871A2DF}"
-        "PackageCode" = "8:{0C366133-03E5-42B0-9C55-2360B10ACB30}"
+        "PackageCode" = "8:{661165E7-C822-4744-808D-40D3FA8382C7}"
         "UpgradeCode" = "8:{DBB0474F-D648-4CFF-AC73-D07D2134B5B3}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -2896,12 +2911,12 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Tüm"
+        "Manufacturer" = "8:Tum"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:TumteekBir"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Tüm"
+        "ARPCONTACT" = "8:Tum"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
