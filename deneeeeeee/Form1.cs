@@ -83,6 +83,7 @@ namespace deneeeeeee
 
                 txtKullaniciAdi.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_FtpKullaniciAdi);
                 txtSifre.Text = zp.Descrypt(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_FtpSifre));
+                cmbKullPlat.SelectedIndex= Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform));
             }
             FileInfo saat = new FileInfo(Application.StartupPath + "\\" + "Saat.xml");
             if (fi.Exists)
@@ -100,6 +101,7 @@ namespace deneeeeeee
 
                 txtFtAdresi.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_FtpAdresi);
                 cmbOtomatik.SelectedIndex = Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Checked));
+                cmbKullPlat.SelectedIndex = Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform));
                 txtKullaniciAdi.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_FtpKullaniciAdi);
                 txtSifre.Text = zp.Descrypt(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_FtpSifre));
             }
@@ -131,6 +133,7 @@ namespace deneeeeeee
 
 
                     SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_Checked, cmbOtomatik.SelectedIndex.ToString());
+                    SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_KullanilacakPlatform, cmbKullPlat.SelectedIndex.ToString());
                     SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_FtpAdresi, txtFtAdresi.Text);
                     SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_FtpKullaniciAdi, txtKullaniciAdi.Text);
                     SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_FtpSifre, zp.crypt(txtSifre.Text));

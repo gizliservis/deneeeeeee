@@ -59,6 +59,8 @@ namespace deneeeeeee
             this.listBoxControl3 = new DevExpress.XtraEditors.ListBoxControl();
             this.listBoxControl2 = new DevExpress.XtraEditors.ListBoxControl();
             this.labelControl8 = new DevExpress.XtraEditors.LabelControl();
+            this.cmbKullPlat = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.txtDosyaYolu.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFtAdresi.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtKullaniciAdi.Properties)).BeginInit();
@@ -78,11 +80,12 @@ namespace deneeeeeee
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.listBoxControl3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.listBoxControl2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbKullPlat.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // btnKaydet
             // 
-            this.btnKaydet.Location = new System.Drawing.Point(269, 127);
+            this.btnKaydet.Location = new System.Drawing.Point(269, 152);
             this.btnKaydet.Name = "btnKaydet";
             this.btnKaydet.Size = new System.Drawing.Size(75, 23);
             this.btnKaydet.TabIndex = 0;
@@ -170,7 +173,7 @@ namespace deneeeeeee
             // listBoxControl1
             // 
             this.listBoxControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.listBoxControl1.Location = new System.Drawing.Point(2, 20);
+            this.listBoxControl1.Location = new System.Drawing.Point(2, 23);
             this.listBoxControl1.Name = "listBoxControl1";
             this.listBoxControl1.Size = new System.Drawing.Size(468, 124);
             this.listBoxControl1.TabIndex = 3;
@@ -190,22 +193,24 @@ namespace deneeeeeee
             // 
             this.groupControl2.Controls.Add(this.lstEklenecekDosyalar);
             this.groupControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupControl2.Location = new System.Drawing.Point(2, 144);
+            this.groupControl2.Location = new System.Drawing.Point(2, 147);
             this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(468, 183);
+            this.groupControl2.Size = new System.Drawing.Size(468, 180);
             this.groupControl2.TabIndex = 4;
             this.groupControl2.Text = "Eklenecek Dosyalar";
             // 
             // lstEklenecekDosyalar
             // 
             this.lstEklenecekDosyalar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstEklenecekDosyalar.Location = new System.Drawing.Point(2, 20);
+            this.lstEklenecekDosyalar.Location = new System.Drawing.Point(2, 23);
             this.lstEklenecekDosyalar.Name = "lstEklenecekDosyalar";
-            this.lstEklenecekDosyalar.Size = new System.Drawing.Size(464, 161);
+            this.lstEklenecekDosyalar.Size = new System.Drawing.Size(464, 155);
             this.lstEklenecekDosyalar.TabIndex = 4;
             // 
             // groupControl3
             // 
+            this.groupControl3.Controls.Add(this.labelControl9);
+            this.groupControl3.Controls.Add(this.cmbKullPlat);
             this.groupControl3.Controls.Add(this.btnCalistir);
             this.groupControl3.Controls.Add(this.cmbOtomatik);
             this.groupControl3.Controls.Add(this.groupControl4);
@@ -228,7 +233,7 @@ namespace deneeeeeee
             // 
             // btnCalistir
             // 
-            this.btnCalistir.Location = new System.Drawing.Point(426, 172);
+            this.btnCalistir.Location = new System.Drawing.Point(426, 183);
             this.btnCalistir.Name = "btnCalistir";
             this.btnCalistir.Size = new System.Drawing.Size(75, 23);
             this.btnCalistir.TabIndex = 6;
@@ -237,7 +242,7 @@ namespace deneeeeeee
             // 
             // cmbOtomatik
             // 
-            this.cmbOtomatik.Location = new System.Drawing.Point(123, 171);
+            this.cmbOtomatik.Location = new System.Drawing.Point(123, 182);
             this.cmbOtomatik.Name = "cmbOtomatik";
             this.cmbOtomatik.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -339,11 +344,35 @@ namespace deneeeeeee
             this.labelControl8.Appearance.Options.UseTextOptions = true;
             this.labelControl8.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
             this.labelControl8.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.labelControl8.Location = new System.Drawing.Point(4, 172);
+            this.labelControl8.Location = new System.Drawing.Point(4, 183);
             this.labelControl8.Name = "labelControl8";
             this.labelControl8.Size = new System.Drawing.Size(112, 13);
             this.labelControl8.TabIndex = 2;
             this.labelControl8.Text = "Program Çalıştır :";
+            // 
+            // cmbKullPlat
+            // 
+            this.cmbKullPlat.Location = new System.Drawing.Point(123, 125);
+            this.cmbKullPlat.Name = "cmbKullPlat";
+            this.cmbKullPlat.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cmbKullPlat.Properties.Items.AddRange(new object[] {
+            "Ftp İle Yedekle",
+            "Google Drive İle Yedekle",
+            "Hepsi"});
+            this.cmbKullPlat.Size = new System.Drawing.Size(390, 20);
+            this.cmbKullPlat.TabIndex = 7;
+            // 
+            // labelControl9
+            // 
+            this.labelControl9.Appearance.Options.UseTextOptions = true;
+            this.labelControl9.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.labelControl9.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+            this.labelControl9.Location = new System.Drawing.Point(5, 128);
+            this.labelControl9.Name = "labelControl9";
+            this.labelControl9.Size = new System.Drawing.Size(112, 13);
+            this.labelControl9.TabIndex = 8;
+            this.labelControl9.Text = "Kullanılacak Platform :";
             // 
             // Form1
             // 
@@ -376,6 +405,7 @@ namespace deneeeeeee
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.listBoxControl3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.listBoxControl2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbKullPlat.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -407,6 +437,8 @@ namespace deneeeeeee
         private DevExpress.XtraEditors.LabelControl labelControl8;
         private DevExpress.XtraEditors.ComboBoxEdit cmbOtomatik;
         private DevExpress.XtraEditors.SimpleButton btnCalistir;
+        private DevExpress.XtraEditors.LabelControl labelControl9;
+        private DevExpress.XtraEditors.ComboBoxEdit cmbKullPlat;
     }
 }
 

@@ -1,5 +1,6 @@
 ﻿using deneeeeeee.Tools;
 using DevExpress.XtraEditors;
+using GoogleDriveExample;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,6 +29,8 @@ namespace Tumtek
         bool tus3 = false;
         bool tus4 = false;
         bool tus5 = false;
+        private string ActiveParentID;
+       
 
         List<string> st = new List<string>();
 
@@ -52,14 +55,11 @@ namespace Tumtek
 
         }
 
-       
-
-        private void timer1_Tick(object sender, EventArgs e)
+       public void ftpyedek()
         {
-
             foreach (var item in st)
             {
-              
+
                 if (DateTime.Now.ToString("HH:mm:ss") == item.ToString())
                 {
                     FileInfo fi = new FileInfo(Application.StartupPath + "\\" + "Yollar.xml");
@@ -94,7 +94,149 @@ namespace Tumtek
                     }
                 }
             }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform))==0)
+            {
+                ftpyedek();
+            }
+            else if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform)) == 1)
+            {
+                GoogleDriveYedek();
+            }
+            else if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform)) == 2)
+            {
+                hemgoglehemftp();
+            }
+            
            
+        }
+      
+        private async Task<bool> UploadFile(string file)
+        {
+            string rootId = DriveApi.GetRootID();
+            ActiveParentID = rootId;
+            Google.Apis.Drive.v3.Data.File uploadedFile = await DriveApi.UploadFile(file, ActiveParentID);
+
+            long fileSize = uploadedFile.Size ?? 0;
+            string[] row = { uploadedFile.Name, (fileSize / 1024f).ToString("n0") + " KB", fileSize.ToString(), uploadedFile.MimeType, uploadedFile.CreatedTime?.ToString("G"), uploadedFile.Id };
+            return true;
+        }
+        public async void hemgoglehemftp()
+        {
+            DriveApi = GoogleDriveAPI.GetInstance();
+            try
+            {
+
+                DriveApi.Authorize();
+
+
+                foreach (var item in st)
+                {
+
+                    if (DateTime.Now.ToString("HH:mm:ss") == item.ToString())
+                    {
+                        FileInfo fi = new FileInfo(Application.StartupPath + "\\" + "Yollar.xml");
+                        try
+                        {
+
+                            if (fi.Exists)
+                            {
+                                string hashsifre = zp.Descrypt(sifre);
+                                string xmlDosyasi = @"Yollar.xml";
+                                XmlDocument xmlDocument = new XmlDocument();
+                                xmlDocument.Load(xmlDosyasi);
+                                XmlNodeList bulunanNode = xmlDocument.SelectNodes("/DosyaYolu/Yol");
+                                foreach (XmlNode secilen in bulunanNode)
+                                {
+                                    zp.Ziple(secilen.InnerText);
+                                    await UploadFile(secilen.InnerText + ".zip");
+                                    ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi, kullaniciAdi, hashsifre);
+
+                                }
+                                MessageBox.Show("drive yedekleme işlemi tamamlandı");
+                            }
+                            else if (!fi.Exists)
+                            {
+                                MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
+                            MessageBox.Show(ex.Message, "!Hata");
+                        }
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+        }
+        public GoogleDriveAPI DriveApi;
+        public async void GoogleDriveYedek()
+        {
+            DriveApi = GoogleDriveAPI.GetInstance();
+            try
+            {
+
+                DriveApi.Authorize();
+                
+
+                foreach (var item in st)
+                {
+
+                    if (DateTime.Now.ToString("HH:mm:ss") == item.ToString())
+                    {
+                        FileInfo fi = new FileInfo(Application.StartupPath + "\\" + "Yollar.xml");
+                        try
+                        {
+
+                            if (fi.Exists)
+                            {
+                                string xmlDosyasi = @"Yollar.xml";
+                                XmlDocument xmlDocument = new XmlDocument();
+                                xmlDocument.Load(xmlDosyasi);
+                                XmlNodeList bulunanNode = xmlDocument.SelectNodes("/DosyaYolu/Yol");
+                                foreach (XmlNode secilen in bulunanNode)
+                                {
+                                    zp.Ziple(secilen.InnerText);
+                                    await UploadFile(secilen.InnerText + ".zip");
+
+                                }
+                                MessageBox.Show("drive yedekleme işlemi tamamlandı");
+                            }
+                            else if (!fi.Exists)
+                            {
+                                MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
+                            MessageBox.Show(ex.Message, "!Hata");
+                        }
+                    }
+                }
+                
+               
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+
+           
+
+
+
         }
         NotifyIcon notify_Icon = new NotifyIcon();
         private void frmFtpYedek_Load_1(object sender, EventArgs e)

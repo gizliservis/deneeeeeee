@@ -38,7 +38,8 @@ namespace deneeeeeee.Tools
             FTP_FtpAdresi,
             FTP_FtpKullaniciAdi,
             FTP_FtpSifre,
-            FTP_Checked
+            FTP_Checked,
+            FTP_KullanilacakPlatform
             
 
         }
