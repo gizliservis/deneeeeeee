@@ -39,7 +39,12 @@ namespace deneeeeeee.Tools
             FTP_FtpKullaniciAdi,
             FTP_FtpSifre,
             FTP_Checked,
-            FTP_KullanilacakPlatform
+            FTP_KullanilacakPlatform,
+            FTP_MssqlKullan,
+            FTP_MssqlServiceName,
+            FTP_Json,
+            FTP_Mail
+                
             
 
         }

@@ -1,16 +1,11 @@
 ﻿using deneeeeeee.Tools;
-using DevExpress.XtraEditors;
 using GoogleDriveExample;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
@@ -19,9 +14,14 @@ namespace Tumtek
 {
     public partial class frmFtpYedek : DevExpress.XtraEditors.XtraForm
     {
+        MailGonderim mail = new MailGonderim();
         string ftpAdresi = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_FtpAdresi);
         string kullaniciAdi = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_FtpKullaniciAdi);
         string sifre = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_FtpSifre);
+        int mssqlKullan = Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_MssqlKullan));
+        string mssqlServiceName = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_MssqlServiceName);
+        string email = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Mail);
+        string Json = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Json);
         Zipleme zp = new Zipleme();
         FtpGonderim ftp = new FtpGonderim();
         bool tus1 = false;
@@ -30,7 +30,7 @@ namespace Tumtek
         bool tus4 = false;
         bool tus5 = false;
         private string ActiveParentID;
-       
+
 
         List<string> st = new List<string>();
 
@@ -38,16 +38,16 @@ namespace Tumtek
         public frmFtpYedek()
         {
             InitializeComponent();
-          WindowState= FormWindowState.Minimized;
+            WindowState = FormWindowState.Minimized;
             string xml = @"Saat.xml";
-            
+
             XmlDocument xmldoc = new XmlDocument();
             xmldoc.Load(xml);
             XmlNodeList bulunanNode = xmldoc.SelectNodes("/SaatYolu/Saat");
             foreach (XmlNode secilen in bulunanNode)
             {
 
-               st.Add(secilen.InnerText);
+                st.Add(secilen.InnerText);
 
 
             }
@@ -55,7 +55,7 @@ namespace Tumtek
 
         }
 
-       public void ftpyedek()
+        public void ftpyedek()
         {
             foreach (var item in st)
             {
@@ -80,7 +80,9 @@ namespace Tumtek
                                 ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi, kullaniciAdi, hashsifre);
 
                             }
+                            mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
                             MessageBox.Show("yedekleme işlemi tamamlandı");
+
                         }
                         else if (!fi.Exists)
                         {
@@ -90,7 +92,9 @@ namespace Tumtek
                     catch (Exception ex)
                     {
 
+                        mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
                         MessageBox.Show(ex.Message, "!Hata");
+
                     }
                 }
             }
@@ -98,22 +102,53 @@ namespace Tumtek
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform))==0)
+            if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform)) == 0)
             {
-                ftpyedek();
+                if (mssqlKullan == 1)
+                {
+                   
+                        Zipleme.SqlStoped(mssqlServiceName);
+                        ftpyedek();
+                        Zipleme.SqlStarter(mssqlServiceName);
+                }
+                else if (mssqlKullan == 0)
+                {
+                        ftpyedek();
+                }
+
             }
             else if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform)) == 1)
             {
-                GoogleDriveYedek();
+                if (mssqlKullan == 1)
+                {
+                        Zipleme.SqlStoped(mssqlServiceName);
+                        GoogleDriveYedek();
+                        Zipleme.SqlStarter(mssqlServiceName);
+                }
+                else if (mssqlKullan == 0)
+                { 
+                        GoogleDriveYedek();
+                }
             }
             else if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform)) == 2)
             {
-                hemgoglehemftp();
+                if (mssqlKullan == 1)
+                {
+                        Zipleme.SqlStoped(mssqlServiceName);
+                        hemgoglehemftp();
+                        Zipleme.SqlStarter(mssqlServiceName);
+                }
+                else if (mssqlKullan == 0)
+                {
+
+                        hemgoglehemftp();
+                }
+
             }
-            
-           
+
+
         }
-      
+
         private async Task<bool> UploadFile(string file)
         {
             string rootId = DriveApi.GetRootID();
@@ -130,7 +165,7 @@ namespace Tumtek
             try
             {
 
-                DriveApi.Authorize();
+                DriveApi.Authorize(Json);
 
 
                 foreach (var item in st)
@@ -156,16 +191,18 @@ namespace Tumtek
                                     ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi, kullaniciAdi, hashsifre);
 
                                 }
+                                mail.Gonder("Yedekleme", "Google Drive ve FTP Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
                                 MessageBox.Show("drive yedekleme işlemi tamamlandı");
                             }
                             else if (!fi.Exists)
                             {
+                                mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
                                 MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
                             }
                         }
                         catch (Exception ex)
                         {
-
+                            mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
                             MessageBox.Show(ex.Message, "!Hata");
                         }
                     }
@@ -175,7 +212,7 @@ namespace Tumtek
             }
             catch (Exception ex)
             {
-
+                mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
                 MessageBox.Show(ex.Message);
             }
         }
@@ -186,8 +223,8 @@ namespace Tumtek
             try
             {
 
-                DriveApi.Authorize();
-                
+                DriveApi.Authorize(Json);
+
 
                 foreach (var item in st)
                 {
@@ -210,22 +247,25 @@ namespace Tumtek
                                     await UploadFile(secilen.InnerText + ".zip");
 
                                 }
+                                mail.Gonder("Yedekleme", "Google Drive Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
                                 MessageBox.Show("drive yedekleme işlemi tamamlandı");
+
                             }
                             else if (!fi.Exists)
                             {
+                                mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
                                 MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
                             }
                         }
                         catch (Exception ex)
                         {
-
+                            mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
                             MessageBox.Show(ex.Message, "!Hata");
                         }
                     }
                 }
-                
-               
+
+
             }
             catch (Exception ex)
             {
@@ -233,7 +273,7 @@ namespace Tumtek
                 MessageBox.Show(ex.Message);
             }
 
-           
+
 
 
 
@@ -241,7 +281,7 @@ namespace Tumtek
         NotifyIcon notify_Icon = new NotifyIcon();
         private void frmFtpYedek_Load_1(object sender, EventArgs e)
         {
-            
+
             notify_Icon.Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
         }
 
@@ -320,17 +360,17 @@ namespace Tumtek
             {
                 tus1 = true;
             }
-            if (e.KeyCode==Keys.ControlKey)
+            if (e.KeyCode == Keys.ControlKey)
             {
                 tus2 = true;
             }
-            if (e.KeyCode==Keys.ShiftKey)
+            if (e.KeyCode == Keys.ShiftKey)
             {
                 tus3 = true;
             }
-            if (e.KeyCode==Keys.Space)
+            if (e.KeyCode == Keys.Space)
             {
-                if (tus1==true && tus2==true && tus3==true)
+                if (tus1 == true && tus2 == true && tus3 == true)
                 {
                     Process.Start($"{Application.StartupPath}\\deneeeeeee.exe");
                     tus1 = false;
@@ -338,17 +378,17 @@ namespace Tumtek
                     tus3 = false;
                 }
             }
-            if (e.KeyCode==Keys.T)
+            if (e.KeyCode == Keys.T)
             {
                 tus4 = true;
             }
-            if (e.KeyCode==Keys.U)
+            if (e.KeyCode == Keys.U)
             {
                 tus5 = true;
             }
-            if (e.KeyCode==Keys.M)
+            if (e.KeyCode == Keys.M)
             {
-                if (tus4==true && tus5==true)
+                if (tus4 == true && tus5 == true)
                 {
                     TamamenKapat = 1;
                     Application.Exit();

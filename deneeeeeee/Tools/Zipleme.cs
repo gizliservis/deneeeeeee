@@ -23,11 +23,12 @@ namespace deneeeeeee.Tools
                 zip.Save(dosyaYolu + ".zip");
             }
         }
-        public static void Starter()
+        public static void SqlStarter(string serviceName)
         {
 
             //string myServiceName = "MSSQL$SQLEXPRESS";
-            string myServiceName = "MSSQLSERVER";
+            // "MSSQLSERVER";
+            string myServiceName = serviceName;
             string status;
 
             ServiceController mySC = new ServiceController(myServiceName);
@@ -47,9 +48,48 @@ namespace deneeeeeee.Tools
             {
                 try
                 {
-                    // mySC.Status.Equals(ServiceControllerStatus.StopPending)
+                    mySC.Status.Equals(ServiceControllerStatus.StopPending);
                     mySC.Start();
                     mySC.WaitForStatus(ServiceControllerStatus.Running);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Hata");
+                }
+
+            }
+
+            return;
+
+        }
+        public static void SqlStoped(string serviceName)
+        {
+
+            //string myServiceName = "MSSQL$SQLEXPRESS";
+            // "MSSQLSERVER";
+            string myServiceName = serviceName;
+            string status;
+
+            ServiceController mySC = new ServiceController(myServiceName);
+
+            try
+            {
+                status = mySC.Status.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Hata");
+                return;
+            }
+
+
+            if (mySC.Status.Equals(ServiceControllerStatus.Running))
+            {
+                try
+                {
+                    mySC.Status.Equals(ServiceControllerStatus.StartPending);
+                    mySC.Stop();
+                    mySC.WaitForStatus(ServiceControllerStatus.Stopped);
                 }
                 catch (Exception ex)
                 {

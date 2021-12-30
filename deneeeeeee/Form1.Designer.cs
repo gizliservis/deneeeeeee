@@ -29,11 +29,11 @@ namespace deneeeeeee
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions2 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject5 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject6 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject7 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject8 = new DevExpress.Utils.SerializableAppearanceObject();
             this.btnKaydet = new DevExpress.XtraEditors.SimpleButton();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.txtDosyaYolu = new DevExpress.XtraEditors.ButtonEdit();
@@ -48,6 +48,9 @@ namespace deneeeeeee
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
             this.lstEklenecekDosyalar = new DevExpress.XtraEditors.ListBoxControl();
             this.groupControl3 = new DevExpress.XtraEditors.GroupControl();
+            this.cmbMssqlKullan = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
+            this.cmbKullPlat = new DevExpress.XtraEditors.ComboBoxEdit();
             this.btnCalistir = new DevExpress.XtraEditors.SimpleButton();
             this.cmbOtomatik = new DevExpress.XtraEditors.ComboBoxEdit();
             this.groupControl4 = new DevExpress.XtraEditors.GroupControl();
@@ -58,9 +61,15 @@ namespace deneeeeeee
             this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
             this.listBoxControl3 = new DevExpress.XtraEditors.ListBoxControl();
             this.listBoxControl2 = new DevExpress.XtraEditors.ListBoxControl();
+            this.txtServiceName = new DevExpress.XtraEditors.TextEdit();
+            this.txtJsonIsim = new DevExpress.XtraEditors.TextEdit();
+            this.labelControl11 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl12 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl10 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl8 = new DevExpress.XtraEditors.LabelControl();
-            this.cmbKullPlat = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl13 = new DevExpress.XtraEditors.LabelControl();
+            this.txtMail = new DevExpress.XtraEditors.TextEdit();
+            this.labelControl14 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.txtDosyaYolu.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFtAdresi.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtKullaniciAdi.Properties)).BeginInit();
@@ -73,6 +82,8 @@ namespace deneeeeeee
             ((System.ComponentModel.ISupportInitialize)(this.lstEklenecekDosyalar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
             this.groupControl3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbMssqlKullan.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbKullPlat.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmbOtomatik.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).BeginInit();
             this.groupControl4.SuspendLayout();
@@ -80,12 +91,14 @@ namespace deneeeeeee
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.listBoxControl3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.listBoxControl2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmbKullPlat.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtServiceName.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtJsonIsim.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMail.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // btnKaydet
             // 
-            this.btnKaydet.Location = new System.Drawing.Point(269, 152);
+            this.btnKaydet.Location = new System.Drawing.Point(242, 266);
             this.btnKaydet.Name = "btnKaydet";
             this.btnKaydet.Size = new System.Drawing.Size(75, 23);
             this.btnKaydet.TabIndex = 0;
@@ -110,7 +123,7 @@ namespace deneeeeeee
             this.txtDosyaYolu.Name = "txtDosyaYolu";
             this.txtDosyaYolu.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton()});
-            this.txtDosyaYolu.Size = new System.Drawing.Size(390, 20);
+            this.txtDosyaYolu.Size = new System.Drawing.Size(398, 20);
             this.txtDosyaYolu.TabIndex = 1;
             this.txtDosyaYolu.Click += new System.EventHandler(this.txtDosyaYolu_Click);
             // 
@@ -152,14 +165,14 @@ namespace deneeeeeee
             this.txtFtAdresi.EditValue = "ftp://yedekleme.tumteknoloji.com.tr/";
             this.txtFtAdresi.Location = new System.Drawing.Point(123, 49);
             this.txtFtAdresi.Name = "txtFtAdresi";
-            this.txtFtAdresi.Size = new System.Drawing.Size(390, 20);
+            this.txtFtAdresi.Size = new System.Drawing.Size(398, 20);
             this.txtFtAdresi.TabIndex = 1;
             // 
             // txtKullaniciAdi
             // 
             this.txtKullaniciAdi.Location = new System.Drawing.Point(123, 75);
             this.txtKullaniciAdi.Name = "txtKullaniciAdi";
-            this.txtKullaniciAdi.Size = new System.Drawing.Size(390, 20);
+            this.txtKullaniciAdi.Size = new System.Drawing.Size(398, 20);
             this.txtKullaniciAdi.TabIndex = 1;
             // 
             // txtSifre
@@ -167,15 +180,15 @@ namespace deneeeeeee
             this.txtSifre.Location = new System.Drawing.Point(123, 101);
             this.txtSifre.Name = "txtSifre";
             this.txtSifre.Properties.PasswordChar = '*';
-            this.txtSifre.Size = new System.Drawing.Size(390, 20);
+            this.txtSifre.Size = new System.Drawing.Size(398, 20);
             this.txtSifre.TabIndex = 1;
             // 
             // listBoxControl1
             // 
             this.listBoxControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.listBoxControl1.Location = new System.Drawing.Point(2, 23);
+            this.listBoxControl1.Location = new System.Drawing.Point(2, 20);
             this.listBoxControl1.Name = "listBoxControl1";
-            this.listBoxControl1.Size = new System.Drawing.Size(468, 124);
+            this.listBoxControl1.Size = new System.Drawing.Size(540, 190);
             this.listBoxControl1.TabIndex = 3;
             // 
             // groupControl1
@@ -183,9 +196,9 @@ namespace deneeeeeee
             this.groupControl1.Controls.Add(this.groupControl2);
             this.groupControl1.Controls.Add(this.listBoxControl1);
             this.groupControl1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.groupControl1.Location = new System.Drawing.Point(527, 0);
+            this.groupControl1.Location = new System.Drawing.Point(526, 0);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(472, 329);
+            this.groupControl1.Size = new System.Drawing.Size(544, 464);
             this.groupControl1.TabIndex = 4;
             this.groupControl1.Text = "Yedeklenecek Dosyalar";
             // 
@@ -193,47 +206,96 @@ namespace deneeeeeee
             // 
             this.groupControl2.Controls.Add(this.lstEklenecekDosyalar);
             this.groupControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupControl2.Location = new System.Drawing.Point(2, 147);
+            this.groupControl2.Location = new System.Drawing.Point(2, 210);
             this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(468, 180);
+            this.groupControl2.Size = new System.Drawing.Size(540, 252);
             this.groupControl2.TabIndex = 4;
             this.groupControl2.Text = "Eklenecek Dosyalar";
             // 
             // lstEklenecekDosyalar
             // 
             this.lstEklenecekDosyalar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstEklenecekDosyalar.Location = new System.Drawing.Point(2, 23);
+            this.lstEklenecekDosyalar.Location = new System.Drawing.Point(2, 20);
             this.lstEklenecekDosyalar.Name = "lstEklenecekDosyalar";
-            this.lstEklenecekDosyalar.Size = new System.Drawing.Size(464, 155);
+            this.lstEklenecekDosyalar.Size = new System.Drawing.Size(536, 230);
             this.lstEklenecekDosyalar.TabIndex = 4;
             // 
             // groupControl3
             // 
+            this.groupControl3.Controls.Add(this.cmbMssqlKullan);
             this.groupControl3.Controls.Add(this.labelControl9);
             this.groupControl3.Controls.Add(this.cmbKullPlat);
             this.groupControl3.Controls.Add(this.btnCalistir);
             this.groupControl3.Controls.Add(this.cmbOtomatik);
             this.groupControl3.Controls.Add(this.groupControl4);
             this.groupControl3.Controls.Add(this.txtDosyaYolu);
+            this.groupControl3.Controls.Add(this.txtServiceName);
             this.groupControl3.Controls.Add(this.txtSifre);
+            this.groupControl3.Controls.Add(this.txtMail);
+            this.groupControl3.Controls.Add(this.txtJsonIsim);
             this.groupControl3.Controls.Add(this.txtKullaniciAdi);
             this.groupControl3.Controls.Add(this.txtFtAdresi);
+            this.groupControl3.Controls.Add(this.labelControl11);
+            this.groupControl3.Controls.Add(this.labelControl12);
+            this.groupControl3.Controls.Add(this.labelControl10);
             this.groupControl3.Controls.Add(this.labelControl8);
             this.groupControl3.Controls.Add(this.labelControl4);
             this.groupControl3.Controls.Add(this.btnKaydet);
             this.groupControl3.Controls.Add(this.labelControl2);
+            this.groupControl3.Controls.Add(this.labelControl14);
+            this.groupControl3.Controls.Add(this.labelControl13);
             this.groupControl3.Controls.Add(this.labelControl1);
             this.groupControl3.Controls.Add(this.labelControl3);
             this.groupControl3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupControl3.Location = new System.Drawing.Point(0, 0);
             this.groupControl3.Name = "groupControl3";
-            this.groupControl3.Size = new System.Drawing.Size(527, 329);
+            this.groupControl3.Size = new System.Drawing.Size(526, 464);
             this.groupControl3.TabIndex = 4;
             this.groupControl3.Text = "Ftp Ayarları";
             // 
+            // cmbMssqlKullan
+            // 
+            this.cmbMssqlKullan.EditValue = "Hayır";
+            this.cmbMssqlKullan.Location = new System.Drawing.Point(123, 208);
+            this.cmbMssqlKullan.Name = "cmbMssqlKullan";
+            this.cmbMssqlKullan.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cmbMssqlKullan.Properties.Items.AddRange(new object[] {
+            "Hayır",
+            "Evet"});
+            this.cmbMssqlKullan.Size = new System.Drawing.Size(110, 20);
+            this.cmbMssqlKullan.TabIndex = 9;
+            this.cmbMssqlKullan.SelectedIndexChanged += new System.EventHandler(this.cmbMssqlKullan_SelectedIndexChanged);
+            // 
+            // labelControl9
+            // 
+            this.labelControl9.Appearance.Options.UseTextOptions = true;
+            this.labelControl9.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.labelControl9.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+            this.labelControl9.Location = new System.Drawing.Point(5, 128);
+            this.labelControl9.Name = "labelControl9";
+            this.labelControl9.Size = new System.Drawing.Size(112, 13);
+            this.labelControl9.TabIndex = 8;
+            this.labelControl9.Text = "Kullanılacak Platform :";
+            // 
+            // cmbKullPlat
+            // 
+            this.cmbKullPlat.EditValue = "Ftp İle Yedekle";
+            this.cmbKullPlat.Location = new System.Drawing.Point(123, 125);
+            this.cmbKullPlat.Name = "cmbKullPlat";
+            this.cmbKullPlat.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cmbKullPlat.Properties.Items.AddRange(new object[] {
+            "Ftp İle Yedekle",
+            "Google Drive İle Yedekle",
+            "Hepsi"});
+            this.cmbKullPlat.Size = new System.Drawing.Size(398, 20);
+            this.cmbKullPlat.TabIndex = 7;
+            this.cmbKullPlat.SelectedIndexChanged += new System.EventHandler(this.cmbKullPlat_SelectedIndexChanged);
+            // 
             // btnCalistir
             // 
-            this.btnCalistir.Location = new System.Drawing.Point(426, 183);
+            this.btnCalistir.Location = new System.Drawing.Point(418, 299);
             this.btnCalistir.Name = "btnCalistir";
             this.btnCalistir.Size = new System.Drawing.Size(75, 23);
             this.btnCalistir.TabIndex = 6;
@@ -242,14 +304,14 @@ namespace deneeeeeee
             // 
             // cmbOtomatik
             // 
-            this.cmbOtomatik.Location = new System.Drawing.Point(123, 182);
+            this.cmbOtomatik.Location = new System.Drawing.Point(125, 302);
             this.cmbOtomatik.Name = "cmbOtomatik";
             this.cmbOtomatik.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.cmbOtomatik.Properties.Items.AddRange(new object[] {
             "Programı Otomatik Çalıştır",
             "Programı Otomatik Çalıştırma"});
-            this.cmbOtomatik.Size = new System.Drawing.Size(296, 20);
+            this.cmbOtomatik.Size = new System.Drawing.Size(262, 20);
             this.cmbOtomatik.TabIndex = 5;
             // 
             // groupControl4
@@ -262,9 +324,9 @@ namespace deneeeeeee
             this.groupControl4.Controls.Add(this.listBoxControl3);
             this.groupControl4.Controls.Add(this.listBoxControl2);
             this.groupControl4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupControl4.Location = new System.Drawing.Point(2, 214);
+            this.groupControl4.Location = new System.Drawing.Point(2, 344);
             this.groupControl4.Name = "groupControl4";
-            this.groupControl4.Size = new System.Drawing.Size(523, 113);
+            this.groupControl4.Size = new System.Drawing.Size(522, 118);
             this.groupControl4.TabIndex = 4;
             this.groupControl4.Text = "Saat Ekle";
             // 
@@ -274,7 +336,7 @@ namespace deneeeeeee
             this.dateEdit1.Location = new System.Drawing.Point(215, 56);
             this.dateEdit1.Name = "dateEdit1";
             this.dateEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "", null, null, DevExpress.Utils.ToolTipAnchor.Default)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, editorButtonImageOptions2, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject5, serializableAppearanceObject6, serializableAppearanceObject7, serializableAppearanceObject8, "", null, null, DevExpress.Utils.ToolTipAnchor.Default)});
             this.dateEdit1.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.dateEdit1.Properties.DisplayFormat.FormatString = "HH:mm:ss";
@@ -339,52 +401,112 @@ namespace deneeeeeee
             this.listBoxControl2.Size = new System.Drawing.Size(196, 59);
             this.listBoxControl2.TabIndex = 3;
             // 
+            // txtServiceName
+            // 
+            this.txtServiceName.EditValue = "";
+            this.txtServiceName.Enabled = false;
+            this.txtServiceName.Location = new System.Drawing.Point(348, 206);
+            this.txtServiceName.Name = "txtServiceName";
+            this.txtServiceName.Properties.Appearance.Options.UseTextOptions = true;
+            this.txtServiceName.Properties.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.txtServiceName.Properties.NullText = "Örn : MSSQLSERVER";
+            this.txtServiceName.Size = new System.Drawing.Size(173, 20);
+            this.txtServiceName.TabIndex = 1;
+            // 
+            // txtJsonIsim
+            // 
+            this.txtJsonIsim.Enabled = false;
+            this.txtJsonIsim.Location = new System.Drawing.Point(123, 151);
+            this.txtJsonIsim.Name = "txtJsonIsim";
+            this.txtJsonIsim.Size = new System.Drawing.Size(398, 20);
+            this.txtJsonIsim.TabIndex = 1;
+            // 
+            // labelControl11
+            // 
+            this.labelControl11.Appearance.Options.UseTextOptions = true;
+            this.labelControl11.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.labelControl11.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+            this.labelControl11.Location = new System.Drawing.Point(37, 211);
+            this.labelControl11.Name = "labelControl11";
+            this.labelControl11.Size = new System.Drawing.Size(80, 13);
+            this.labelControl11.TabIndex = 2;
+            this.labelControl11.Text = "Mssql Kullan :";
+            // 
+            // labelControl12
+            // 
+            this.labelControl12.Appearance.Options.UseTextOptions = true;
+            this.labelControl12.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.labelControl12.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+            this.labelControl12.Location = new System.Drawing.Point(374, 244);
+            this.labelControl12.Name = "labelControl12";
+            this.labelControl12.Size = new System.Drawing.Size(145, 45);
+            this.labelControl12.TabIndex = 2;
+            this.labelControl12.Text = "Örn:MSSQLSERVER \r\nveya \r\nMSSQL$SQLEXPRESS";
+            // 
+            // labelControl10
+            // 
+            this.labelControl10.Appearance.Options.UseTextOptions = true;
+            this.labelControl10.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.labelControl10.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+            this.labelControl10.Location = new System.Drawing.Point(253, 209);
+            this.labelControl10.Name = "labelControl10";
+            this.labelControl10.Size = new System.Drawing.Size(88, 13);
+            this.labelControl10.TabIndex = 2;
+            this.labelControl10.Text = "Sql Servis İsmi :";
+            // 
             // labelControl8
             // 
             this.labelControl8.Appearance.Options.UseTextOptions = true;
             this.labelControl8.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
             this.labelControl8.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.labelControl8.Location = new System.Drawing.Point(4, 183);
+            this.labelControl8.Location = new System.Drawing.Point(6, 303);
             this.labelControl8.Name = "labelControl8";
             this.labelControl8.Size = new System.Drawing.Size(112, 13);
             this.labelControl8.TabIndex = 2;
             this.labelControl8.Text = "Program Çalıştır :";
             // 
-            // cmbKullPlat
+            // labelControl13
             // 
-            this.cmbKullPlat.Location = new System.Drawing.Point(123, 125);
-            this.cmbKullPlat.Name = "cmbKullPlat";
-            this.cmbKullPlat.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cmbKullPlat.Properties.Items.AddRange(new object[] {
-            "Ftp İle Yedekle",
-            "Google Drive İle Yedekle",
-            "Hepsi"});
-            this.cmbKullPlat.Size = new System.Drawing.Size(390, 20);
-            this.cmbKullPlat.TabIndex = 7;
+            this.labelControl13.Appearance.Options.UseTextOptions = true;
+            this.labelControl13.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.labelControl13.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+            this.labelControl13.Location = new System.Drawing.Point(5, 154);
+            this.labelControl13.Name = "labelControl13";
+            this.labelControl13.Size = new System.Drawing.Size(112, 13);
+            this.labelControl13.TabIndex = 2;
+            this.labelControl13.Text = "Json Dosya İsmi :";
             // 
-            // labelControl9
+            // txtMail
             // 
-            this.labelControl9.Appearance.Options.UseTextOptions = true;
-            this.labelControl9.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labelControl9.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.labelControl9.Location = new System.Drawing.Point(5, 128);
-            this.labelControl9.Name = "labelControl9";
-            this.labelControl9.Size = new System.Drawing.Size(112, 13);
-            this.labelControl9.TabIndex = 8;
-            this.labelControl9.Text = "Kullanılacak Platform :";
+            this.txtMail.Enabled = false;
+            this.txtMail.Location = new System.Drawing.Point(123, 177);
+            this.txtMail.Name = "txtMail";
+            this.txtMail.Size = new System.Drawing.Size(398, 20);
+            this.txtMail.TabIndex = 1;
+            // 
+            // labelControl14
+            // 
+            this.labelControl14.Appearance.Options.UseTextOptions = true;
+            this.labelControl14.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.labelControl14.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+            this.labelControl14.Location = new System.Drawing.Point(6, 180);
+            this.labelControl14.Name = "labelControl14";
+            this.labelControl14.Size = new System.Drawing.Size(112, 13);
+            this.labelControl14.TabIndex = 2;
+            this.labelControl14.Text = "Mail Adresi :";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(999, 329);
+            this.ClientSize = new System.Drawing.Size(1070, 464);
             this.Controls.Add(this.groupControl3);
             this.Controls.Add(this.groupControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MinimizeBox = false;
             this.Name = "Form1";
             this.Text = "Ftp Ayarlar Formu";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.txtDosyaYolu.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFtAdresi.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtKullaniciAdi.Properties)).EndInit();
@@ -397,6 +519,8 @@ namespace deneeeeeee
             ((System.ComponentModel.ISupportInitialize)(this.lstEklenecekDosyalar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).EndInit();
             this.groupControl3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.cmbMssqlKullan.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbKullPlat.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmbOtomatik.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).EndInit();
             this.groupControl4.ResumeLayout(false);
@@ -405,7 +529,9 @@ namespace deneeeeeee
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.listBoxControl3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.listBoxControl2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmbKullPlat.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtServiceName.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtJsonIsim.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMail.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -439,6 +565,15 @@ namespace deneeeeeee
         private DevExpress.XtraEditors.SimpleButton btnCalistir;
         private DevExpress.XtraEditors.LabelControl labelControl9;
         private DevExpress.XtraEditors.ComboBoxEdit cmbKullPlat;
+        private DevExpress.XtraEditors.ComboBoxEdit cmbMssqlKullan;
+        private DevExpress.XtraEditors.TextEdit txtServiceName;
+        private DevExpress.XtraEditors.LabelControl labelControl11;
+        private DevExpress.XtraEditors.LabelControl labelControl10;
+        private DevExpress.XtraEditors.LabelControl labelControl12;
+        private DevExpress.XtraEditors.TextEdit txtJsonIsim;
+        private DevExpress.XtraEditors.LabelControl labelControl13;
+        private DevExpress.XtraEditors.TextEdit txtMail;
+        private DevExpress.XtraEditors.LabelControl labelControl14;
     }
 }
 

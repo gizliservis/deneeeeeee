@@ -25,7 +25,16 @@ namespace deneeeeeee
         public Form1()
         {
             InitializeComponent();
-
+            if (cmbMssqlKullan.SelectedIndex == 0)
+            {
+                txtServiceName.Enabled = false;
+                txtServiceName.Properties.NullText = null;
+            }
+            else if (cmbMssqlKullan.SelectedIndex == 1)
+            {
+                txtServiceName.Enabled = true;
+                txtServiceName.Properties.NullText = "Örn:MSSQLSERVER veya MSSQL$SQLEXPRESS";
+            }
             dateEdit1.DateTime = DateTime.Now;
             FileInfo fi = new FileInfo(Application.StartupPath + "\\" + "Yollar.xml");
             FileInfo saat = new FileInfo(Application.StartupPath + "\\" + "Saat.xml");
@@ -84,6 +93,9 @@ namespace deneeeeeee
                 txtKullaniciAdi.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_FtpKullaniciAdi);
                 txtSifre.Text = zp.Descrypt(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_FtpSifre));
                 cmbKullPlat.SelectedIndex= Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform));
+                cmbMssqlKullan.SelectedIndex= Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_MssqlKullan));
+                txtServiceName.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_MssqlServiceName);
+                txtMail.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Mail);
             }
             FileInfo saat = new FileInfo(Application.StartupPath + "\\" + "Saat.xml");
             if (fi.Exists)
@@ -102,8 +114,12 @@ namespace deneeeeeee
                 txtFtAdresi.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_FtpAdresi);
                 cmbOtomatik.SelectedIndex = Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Checked));
                 cmbKullPlat.SelectedIndex = Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform));
+                txtJsonIsim.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Json);
+                cmbMssqlKullan.SelectedIndex = Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_MssqlKullan));
                 txtKullaniciAdi.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_FtpKullaniciAdi);
+                txtServiceName.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_MssqlServiceName);
                 txtSifre.Text = zp.Descrypt(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_FtpSifre));
+                txtMail.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Mail);
             }
 
 
@@ -135,8 +151,13 @@ namespace deneeeeeee
                     SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_Checked, cmbOtomatik.SelectedIndex.ToString());
                     SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_KullanilacakPlatform, cmbKullPlat.SelectedIndex.ToString());
                     SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_FtpAdresi, txtFtAdresi.Text);
+                    SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_Json, txtJsonIsim.Text);
                     SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_FtpKullaniciAdi, txtKullaniciAdi.Text);
                     SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_FtpSifre, zp.crypt(txtSifre.Text));
+                    SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_MssqlKullan, cmbMssqlKullan.SelectedIndex.ToString());
+                    SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_MssqlServiceName, txtServiceName.Text);
+                    SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_Mail, txtMail.Text);
+
                     SettingsTool.save();
 
                     MessageBox.Show("İşlem Tmamlandı");
@@ -223,6 +244,44 @@ namespace deneeeeeee
                 RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
                 key.DeleteValue("Tumtek.exe");
             }
+        }
+
+        private void cmbMssqlKullan_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbMssqlKullan.SelectedIndex==0)
+            {
+                txtServiceName.Enabled = false;
+                txtServiceName.Properties.NullText = "";
+                txtServiceName.Text = "";
+            }
+            else if (cmbMssqlKullan.SelectedIndex == 1)
+            {
+                txtServiceName.Enabled = true;
+                txtServiceName.Properties.NullText = "Örn : MSSQLSERVER";
+            }
+           
+        }
+
+        private void cmbKullPlat_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbKullPlat.SelectedIndex==0)
+            {
+                txtJsonIsim.Enabled = false;
+                txtMail.Enabled = false;
+                txtJsonIsim.Text = "";
+
+            }
+            else if (cmbKullPlat.SelectedIndex==1 || cmbKullPlat.SelectedIndex==2 )
+            {
+                txtJsonIsim.Enabled = true;
+                txtMail.Enabled = true;
+                txtJsonIsim.Text = "";
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+          
         }
 
         //private void chkOtomatik_CheckedChanged(object sender, EventArgs e)

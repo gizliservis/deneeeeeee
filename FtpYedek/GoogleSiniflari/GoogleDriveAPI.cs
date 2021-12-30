@@ -42,14 +42,14 @@ namespace GoogleDriveExample {
         /// api kullanımı için gerekli işlemler yapılmalı ve client_id.json dosyası alınmalı
         /// client_id.json dosyası programın çalışacağı dizine atılmalı
         /// </summary>
-        public void Authorize() {
+        public void Authorize(string jsonDosya) {
             UserCredential credential;
 
-            if (!System.IO.File.Exists(Application.StartupPath + "/client_secret_297711305074-vpmsaudvegl5ktjo4oe0cjtbkp247r9k.apps.googleusercontent.com.json")) {
+            if (!System.IO.File.Exists(Application.StartupPath +"/"+ jsonDosya+".json")) {
                 throw new Exception("client_id.json dosyası bulunamadı");
             }
 
-            using (var stream = new FileStream(Application.StartupPath + "/client_secret_297711305074-vpmsaudvegl5ktjo4oe0cjtbkp247r9k.apps.googleusercontent.com.json", FileMode.Open, FileAccess.Read)) {
+            using (var stream = new FileStream(Application.StartupPath +"/"+ jsonDosya+".json", FileMode.Open, FileAccess.Read)) {
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     Scopes,
