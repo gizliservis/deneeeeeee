@@ -38,12 +38,15 @@ namespace deneeeeeee.Tools
             FTP_FtpAdresi,
             FTP_FtpKullaniciAdi,
             FTP_FtpSifre,
-            FTP_Checked,
             FTP_KullanilacakPlatform,
             FTP_MssqlKullan,
             FTP_MssqlServiceName,
             FTP_Json,
-            FTP_Mail
+            FTP_Mail,
+            FTP_AylikTemizle,
+            FTP_AyinGunu,
+            FTP_AyinSaati,
+            FTP_Klasor
                 
             
 

@@ -56,5 +56,40 @@ namespace deneeeeeee.Tools
                 MessageBox.Show(ex.Message, "Hata");
             }
         }
+        public void FtpKlasorSilme(string ftpAdres, string kullaniciAdi, string sifre, string klasorIsmi)
+        {
+            FtpWebRequest FTP;
+            try
+            {
+                FTP = (FtpWebRequest)FtpWebRequest.Create(new Uri(ftpAdres +"/"+ klasorIsmi +"/"));
+                FTP.UseBinary = true; 
+                FTP.Credentials = new NetworkCredential(kullaniciAdi, sifre);
+                FTP.Method = WebRequestMethods.Ftp.RemoveDirectory;
+                FtpWebResponse response = (FtpWebResponse)FTP.GetResponse();
+                MessageBox.Show(response.StatusDescription);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        public void FtpKlasorOlustur(string ftpAdres, string kullaniciAdi, string sifre, string klasorIsmi)
+        {
+            FtpWebRequest FTP;
+            try
+            {
+                FTP = (FtpWebRequest)FtpWebRequest.Create(new Uri(ftpAdres+"/" + klasorIsmi + "/"));
+                FTP.UseBinary = true;
+                FTP.Credentials = new NetworkCredential(kullaniciAdi, sifre);
+                FTP.Method = WebRequestMethods.Ftp.MakeDirectory;
+                FtpWebResponse response = (FtpWebResponse)FTP.GetResponse();
+               MessageBox.Show(response.StatusDescription);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
     }
 }

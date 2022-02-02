@@ -22,6 +22,8 @@ namespace Tumtek
         string mssqlServiceName = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_MssqlServiceName);
         string email = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Mail);
         string Json = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Json);
+        string ayinGunu = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AyinGunu)+ " " + SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AyinSaati);
+        string klasor = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Klasor);
         Zipleme zp = new Zipleme();
         FtpGonderim ftp = new FtpGonderim();
         bool tus1 = false;
@@ -62,87 +64,124 @@ namespace Tumtek
 
                 if (DateTime.Now.ToString("HH:mm:ss") == item.ToString())
                 {
-                    FileInfo fi = new FileInfo(Application.StartupPath + "\\" + "Yollar.xml");
-                    try
+                    if (mssqlKullan==1)
                     {
-
-                        if (fi.Exists)
+                        Zipleme.SqlStoped(mssqlServiceName);
+                        FileInfo fi = new FileInfo(Application.StartupPath + "\\" + "Yollar.xml");
+                        try
                         {
-                            string hashsifre = zp.Descrypt(sifre);
-                            string xmlDosyasi = @"Yollar.xml";
-                            XmlDocument xmlDocument = new XmlDocument();
-                            xmlDocument.Load(xmlDosyasi);
-                            XmlNodeList bulunanNode = xmlDocument.SelectNodes("/DosyaYolu/Yol");
-                            foreach (XmlNode secilen in bulunanNode)
-                            {
 
-                                zp.Ziple(secilen.InnerText);
-                                ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi, kullaniciAdi, hashsifre);
+                            if (fi.Exists)
+                            {
+                                string hashsifre = zp.Descrypt(sifre);
+                                string xmlDosyasi = @"Yollar.xml";
+                                XmlDocument xmlDocument = new XmlDocument();
+                                xmlDocument.Load(xmlDosyasi);
+                                XmlNodeList bulunanNode = xmlDocument.SelectNodes("/DosyaYolu/Yol");
+                                foreach (XmlNode secilen in bulunanNode)
+                                {
+
+                                    zp.Ziple(secilen.InnerText);
+                                    ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi, kullaniciAdi, hashsifre);
+
+                                }
+                                mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                MessageBox.Show("yedekleme işlemi tamamlandı");
 
                             }
-                            mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                            MessageBox.Show("yedekleme işlemi tamamlandı");
-
+                            else if (!fi.Exists)
+                            {
+                                MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+                            }
                         }
-                        else if (!fi.Exists)
+                        catch (Exception ex)
                         {
-                            MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+
+                            mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                            MessageBox.Show(ex.Message, "!Hata");
+
+                        }
+                        Zipleme.SqlStarter(mssqlServiceName);
+                    }
+                    else if (mssqlKullan == 0)
+                    {
+                        FileInfo fi = new FileInfo(Application.StartupPath + "\\" + "Yollar.xml");
+                        try
+                        {
+
+                            if (fi.Exists)
+                            {
+                                string hashsifre = zp.Descrypt(sifre);
+                                string xmlDosyasi = @"Yollar.xml";
+                                XmlDocument xmlDocument = new XmlDocument();
+                                xmlDocument.Load(xmlDosyasi);
+                                XmlNodeList bulunanNode = xmlDocument.SelectNodes("/DosyaYolu/Yol");
+                                foreach (XmlNode secilen in bulunanNode)
+                                {
+
+                                    zp.Ziple(secilen.InnerText);
+                                    ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi, kullaniciAdi, hashsifre);
+
+                                }
+                                mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                MessageBox.Show("yedekleme işlemi tamamlandı");
+
+                            }
+                            else if (!fi.Exists)
+                            {
+                                MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
+                            mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                            MessageBox.Show(ex.Message, "!Hata");
+
                         }
                     }
-                    catch (Exception ex)
-                    {
-
-                        mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                        MessageBox.Show(ex.Message, "!Hata");
-
-                    }
+                   
                 }
             }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+
+            
+
             if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform)) == 0)
             {
-                if (mssqlKullan == 1)
-                {
-                   
-                        Zipleme.SqlStoped(mssqlServiceName);
-                        ftpyedek();
-                        Zipleme.SqlStarter(mssqlServiceName);
-                }
-                else if (mssqlKullan == 0)
-                {
-                        ftpyedek();
-                }
+
+               
+                    if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AylikTemizle)) == 1)
+                    {
+                        if (DateTime.Now.ToString("dd HH:mm:ss") == ayinGunu)
+                        {
+                            ftp.FtpKlasorSilme(ftpAdresi, kullaniciAdi, zp.Descrypt(sifre), klasor);
+                            ftp.FtpKlasorOlustur(ftpAdresi, kullaniciAdi, zp.Descrypt(sifre), klasor);
+                        }
+                    }
+                    ftpyedek();
 
             }
             else if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform)) == 1)
             {
-                if (mssqlKullan == 1)
-                {
-                        Zipleme.SqlStoped(mssqlServiceName);
-                        GoogleDriveYedek();
-                        Zipleme.SqlStarter(mssqlServiceName);
-                }
-                else if (mssqlKullan == 0)
-                { 
-                        GoogleDriveYedek();
-                }
+                    GoogleDriveYedek();
             }
             else if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform)) == 2)
             {
-                if (mssqlKullan == 1)
-                {
-                        Zipleme.SqlStoped(mssqlServiceName);
-                        hemgoglehemftp();
-                        Zipleme.SqlStarter(mssqlServiceName);
-                }
-                else if (mssqlKullan == 0)
-                {
-
-                        hemgoglehemftp();
-                }
+               
+                    if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AylikTemizle)) == 1)
+                    {
+                        if (DateTime.Now.ToString("dd HH:mm:ss") == ayinGunu)
+                        {
+                            ftp.FtpKlasorSilme(ftpAdresi, kullaniciAdi, zp.Descrypt(sifre), klasor);
+                            ftp.FtpKlasorOlustur(ftpAdresi, kullaniciAdi, zp.Descrypt(sifre), klasor);
+                        }
+                    }
+                    
+                    hemgoglehemftp();
 
             }
 
@@ -161,117 +200,252 @@ namespace Tumtek
         }
         public async void hemgoglehemftp()
         {
-            DriveApi = GoogleDriveAPI.GetInstance();
-            try
+            if (mssqlKullan == 1)
             {
-
-                DriveApi.Authorize(Json);
-
-
-                foreach (var item in st)
+             
+                
+                DriveApi = GoogleDriveAPI.GetInstance();
+                try
                 {
 
-                    if (DateTime.Now.ToString("HH:mm:ss") == item.ToString())
+                    DriveApi.Authorize(Json);
+
+
+                    foreach (var item in st)
                     {
-                        FileInfo fi = new FileInfo(Application.StartupPath + "\\" + "Yollar.xml");
-                        try
+
+                        if (DateTime.Now.ToString("HH:mm:ss") == item.ToString())
                         {
-
-                            if (fi.Exists)
+                            Zipleme.SqlStoped(mssqlServiceName);
+                            FileInfo fi = new FileInfo(Application.StartupPath + "\\" + "Yollar.xml");
+                            try
                             {
-                                string hashsifre = zp.Descrypt(sifre);
-                                string xmlDosyasi = @"Yollar.xml";
-                                XmlDocument xmlDocument = new XmlDocument();
-                                xmlDocument.Load(xmlDosyasi);
-                                XmlNodeList bulunanNode = xmlDocument.SelectNodes("/DosyaYolu/Yol");
-                                foreach (XmlNode secilen in bulunanNode)
-                                {
-                                    zp.Ziple(secilen.InnerText);
-                                    await UploadFile(secilen.InnerText + ".zip");
-                                    ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi, kullaniciAdi, hashsifre);
 
+                                if (fi.Exists)
+                                {
+                                    string hashsifre = zp.Descrypt(sifre);
+                                    string xmlDosyasi = @"Yollar.xml";
+                                    XmlDocument xmlDocument = new XmlDocument();
+                                    xmlDocument.Load(xmlDosyasi);
+                                    XmlNodeList bulunanNode = xmlDocument.SelectNodes("/DosyaYolu/Yol");
+                                    foreach (XmlNode secilen in bulunanNode)
+                                    {
+                                        zp.Ziple(secilen.InnerText);
+                                        await UploadFile(secilen.InnerText + ".zip");
+                                        ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi, kullaniciAdi, hashsifre);
+
+                                    }
+                                    mail.Gonder("Yedekleme", "Google Drive ve FTP Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                    Zipleme.SqlStarter(mssqlServiceName);
+                                    MessageBox.Show("drive yedekleme işlemi tamamlandı");
                                 }
-                                mail.Gonder("Yedekleme", "Google Drive ve FTP Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                                MessageBox.Show("drive yedekleme işlemi tamamlandı");
+                                else if (!fi.Exists)
+                                {
+                                    mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                    Zipleme.SqlStarter(mssqlServiceName);
+                                    MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+                                }
                             }
-                            else if (!fi.Exists)
+                            catch (Exception ex)
                             {
                                 mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                                MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+                                Zipleme.SqlStarter(mssqlServiceName);
+                                MessageBox.Show(ex.Message, "!Hata");
                             }
                         }
-                        catch (Exception ex)
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                    Zipleme.SqlStarter(mssqlServiceName);
+                    MessageBox.Show(ex.Message);
+                }
+               
+            }
+            else if (mssqlKullan == 0)
+            {
+                DriveApi = GoogleDriveAPI.GetInstance();
+                try
+                {
+
+                    DriveApi.Authorize(Json);
+
+
+                    foreach (var item in st)
+                    {
+
+                        if (DateTime.Now.ToString("HH:mm:ss") == item.ToString())
                         {
-                            mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                            MessageBox.Show(ex.Message, "!Hata");
+                            FileInfo fi = new FileInfo(Application.StartupPath + "\\" + "Yollar.xml");
+                            try
+                            {
+
+                                if (fi.Exists)
+                                {
+                                    string hashsifre = zp.Descrypt(sifre);
+                                    string xmlDosyasi = @"Yollar.xml";
+                                    XmlDocument xmlDocument = new XmlDocument();
+                                    xmlDocument.Load(xmlDosyasi);
+                                    XmlNodeList bulunanNode = xmlDocument.SelectNodes("/DosyaYolu/Yol");
+                                    foreach (XmlNode secilen in bulunanNode)
+                                    {
+                                        zp.Ziple(secilen.InnerText);
+                                        await UploadFile(secilen.InnerText + ".zip");
+                                        ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi, kullaniciAdi, hashsifre);
+
+                                    }
+                                    mail.Gonder("Yedekleme", "Google Drive ve FTP Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                    MessageBox.Show("drive yedekleme işlemi tamamlandı");
+                                }
+                                else if (!fi.Exists)
+                                {
+                                    mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                    MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                MessageBox.Show(ex.Message, "!Hata");
+                            }
                         }
                     }
+
+
                 }
-
-
+                catch (Exception ex)
+                {
+                    mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                    MessageBox.Show(ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                MessageBox.Show(ex.Message);
-            }
+           
         }
         public GoogleDriveAPI DriveApi;
         public async void GoogleDriveYedek()
         {
-            DriveApi = GoogleDriveAPI.GetInstance();
-            try
+            if (mssqlKullan == 1)
             {
-
-                DriveApi.Authorize(Json);
-
-
-                foreach (var item in st)
+                
+                DriveApi = GoogleDriveAPI.GetInstance();
+                try
                 {
 
-                    if (DateTime.Now.ToString("HH:mm:ss") == item.ToString())
-                    {
-                        FileInfo fi = new FileInfo(Application.StartupPath + "\\" + "Yollar.xml");
-                        try
-                        {
+                    DriveApi.Authorize(Json);
 
-                            if (fi.Exists)
+
+                    foreach (var item in st)
+                    {
+
+                        if (DateTime.Now.ToString("HH:mm:ss") == item.ToString())
+                        {
+                            Zipleme.SqlStoped(mssqlServiceName);
+                            FileInfo fi = new FileInfo(Application.StartupPath + "\\" + "Yollar.xml");
+                            try
                             {
-                                string xmlDosyasi = @"Yollar.xml";
-                                XmlDocument xmlDocument = new XmlDocument();
-                                xmlDocument.Load(xmlDosyasi);
-                                XmlNodeList bulunanNode = xmlDocument.SelectNodes("/DosyaYolu/Yol");
-                                foreach (XmlNode secilen in bulunanNode)
+
+                                if (fi.Exists)
                                 {
-                                    zp.Ziple(secilen.InnerText);
-                                    await UploadFile(secilen.InnerText + ".zip");
+                                    string xmlDosyasi = @"Yollar.xml";
+                                    XmlDocument xmlDocument = new XmlDocument();
+                                    xmlDocument.Load(xmlDosyasi);
+                                    XmlNodeList bulunanNode = xmlDocument.SelectNodes("/DosyaYolu/Yol");
+                                    foreach (XmlNode secilen in bulunanNode)
+                                    {
+                                        zp.Ziple(secilen.InnerText);
+                                        await UploadFile(secilen.InnerText + ".zip");
+
+                                    }
+                                    mail.Gonder("Yedekleme", "Google Drive Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                    MessageBox.Show("drive yedekleme işlemi tamamlandı");
+                                    Zipleme.SqlStarter(mssqlServiceName);
 
                                 }
-                                mail.Gonder("Yedekleme", "Google Drive Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                                MessageBox.Show("drive yedekleme işlemi tamamlandı");
-
+                                else if (!fi.Exists)
+                                {
+                                    mail.Gonder("Yedekleme", "Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                    MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+                                    Zipleme.SqlStarter(mssqlServiceName);
+                                }
                             }
-                            else if (!fi.Exists)
+                            catch (Exception ex)
                             {
-                                mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                                MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+                                mail.Gonder("Yedekleme", "Google Drive yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                MessageBox.Show(ex.Message, "!Hata");
+                                Zipleme.SqlStarter(mssqlServiceName);
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                            MessageBox.Show(ex.Message, "!Hata");
                         }
                     }
+
+
                 }
+                catch (Exception ex)
+                {
 
-
+                    MessageBox.Show(ex.Message);
+                }
+                
             }
-            catch (Exception ex)
+            else if (mssqlKullan == 0)
             {
+                DriveApi = GoogleDriveAPI.GetInstance();
+                try
+                {
 
-                MessageBox.Show(ex.Message);
+                    DriveApi.Authorize(Json);
+
+
+                    foreach (var item in st)
+                    {
+
+                        if (DateTime.Now.ToString("HH:mm:ss") == item.ToString())
+                        {
+                            FileInfo fi = new FileInfo(Application.StartupPath + "\\" + "Yollar.xml");
+                            try
+                            {
+
+                                if (fi.Exists)
+                                {
+                                    string xmlDosyasi = @"Yollar.xml";
+                                    XmlDocument xmlDocument = new XmlDocument();
+                                    xmlDocument.Load(xmlDosyasi);
+                                    XmlNodeList bulunanNode = xmlDocument.SelectNodes("/DosyaYolu/Yol");
+                                    foreach (XmlNode secilen in bulunanNode)
+                                    {
+                                        zp.Ziple(secilen.InnerText);
+                                        await UploadFile(secilen.InnerText + ".zip");
+
+                                    }
+                                    mail.Gonder("Yedekleme", "Google Drive Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                    MessageBox.Show("drive yedekleme işlemi tamamlandı");
+
+                                }
+                                else if (!fi.Exists)
+                                {
+                                    mail.Gonder("Yedekleme", "Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                    MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                mail.Gonder("Yedekleme", "Google Drive yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                MessageBox.Show(ex.Message, "!Hata");
+                            }
+                        }
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.Message);
+                }
             }
+            
 
 
 

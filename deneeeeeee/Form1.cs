@@ -96,6 +96,11 @@ namespace deneeeeeee
                 cmbMssqlKullan.SelectedIndex= Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_MssqlKullan));
                 txtServiceName.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_MssqlServiceName);
                 txtMail.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Mail);
+                cmbAylikTemizle.SelectedIndex = Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AylikTemizle));
+                cmbAyinGunu.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AyinGunu);
+                dtAySaat.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AyinSaati);
+                txtFTPKlasoru.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Klasor);
+
             }
             FileInfo saat = new FileInfo(Application.StartupPath + "\\" + "Saat.xml");
             if (fi.Exists)
@@ -112,7 +117,6 @@ namespace deneeeeeee
                 }
 
                 txtFtAdresi.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_FtpAdresi);
-                cmbOtomatik.SelectedIndex = Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Checked));
                 cmbKullPlat.SelectedIndex = Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform));
                 txtJsonIsim.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Json);
                 cmbMssqlKullan.SelectedIndex = Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_MssqlKullan));
@@ -120,6 +124,10 @@ namespace deneeeeeee
                 txtServiceName.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_MssqlServiceName);
                 txtSifre.Text = zp.Descrypt(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_FtpSifre));
                 txtMail.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Mail);
+                cmbAylikTemizle.SelectedIndex = Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AylikTemizle));
+                cmbAyinGunu.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AyinGunu);
+                dtAySaat.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AyinSaati);
+                txtFTPKlasoru.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Klasor);
             }
 
 
@@ -143,12 +151,6 @@ namespace deneeeeeee
 
                     xdoc.Save(Application.StartupPath + "\\Yollar.xml");
 
-
-
-
-
-
-                    SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_Checked, cmbOtomatik.SelectedIndex.ToString());
                     SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_KullanilacakPlatform, cmbKullPlat.SelectedIndex.ToString());
                     SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_FtpAdresi, txtFtAdresi.Text);
                     SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_Json, txtJsonIsim.Text);
@@ -157,7 +159,10 @@ namespace deneeeeeee
                     SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_MssqlKullan, cmbMssqlKullan.SelectedIndex.ToString());
                     SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_MssqlServiceName, txtServiceName.Text);
                     SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_Mail, txtMail.Text);
-
+                    SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_AylikTemizle, cmbAylikTemizle.SelectedIndex.ToString());
+                    SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_AyinGunu, cmbAyinGunu.Text);
+                    SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_Klasor, txtFTPKlasoru.Text);
+                    SettingsTool.AyarDegistir(SettingsTool.Ayarlar.FTP_AyinSaati, dtAySaat.DateTime.ToString("HH:mm:ss"));
                     SettingsTool.save();
 
                     MessageBox.Show("İşlem Tmamlandı");
@@ -232,19 +237,7 @@ namespace deneeeeeee
             }
         }
 
-        private void btnCalistir_Click(object sender, EventArgs e)
-        {
-            if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Checked)) == 0)
-            {
-                RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
-                key.SetValue("Tumtek.exe", "\"" + Application.StartupPath + "\"Tumtek.exe");
-            }
-            else if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Checked)) == 1)
-            {
-                RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
-                key.DeleteValue("Tumtek.exe");
-            }
-        }
+        
 
         private void cmbMssqlKullan_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -282,6 +275,12 @@ namespace deneeeeeee
         private void Form1_Load(object sender, EventArgs e)
         {
           
+        }
+
+        private void btnKlasorOlustur_Click(object sender, EventArgs e)
+        {
+            FtpGonderim ftp = new FtpGonderim();
+            ftp.FtpKlasorOlustur(txtFtAdresi.Text, txtKullaniciAdi.Text, txtSifre.Text, txtFTPKlasoru.Text);
         }
 
         //private void chkOtomatik_CheckedChanged(object sender, EventArgs e)
