@@ -82,7 +82,7 @@ namespace Tumtek
                                 {
 
                                     zp.Ziple(secilen.InnerText);
-                                    ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi, kullaniciAdi, hashsifre);
+                                    ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi+"/"+klasor+"/", kullaniciAdi, hashsifre);
 
                                 }
                                 mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
@@ -120,7 +120,7 @@ namespace Tumtek
                                 {
 
                                     zp.Ziple(secilen.InnerText);
-                                    ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi, kullaniciAdi, hashsifre);
+                                    ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi + "/" + klasor + "/", kullaniciAdi, hashsifre);
 
                                 }
                                 mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
@@ -232,7 +232,7 @@ namespace Tumtek
                                     {
                                         zp.Ziple(secilen.InnerText);
                                         await UploadFile(secilen.InnerText + ".zip");
-                                        ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi, kullaniciAdi, hashsifre);
+                                        ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi + "/" + klasor + "/", kullaniciAdi, hashsifre);
 
                                     }
                                     mail.Gonder("Yedekleme", "Google Drive ve FTP Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
@@ -294,7 +294,7 @@ namespace Tumtek
                                     {
                                         zp.Ziple(secilen.InnerText);
                                         await UploadFile(secilen.InnerText + ".zip");
-                                        ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi, kullaniciAdi, hashsifre);
+                                        ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi + "/" + klasor + "/", kullaniciAdi, hashsifre);
 
                                     }
                                     mail.Gonder("Yedekleme", "Google Drive ve FTP Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
