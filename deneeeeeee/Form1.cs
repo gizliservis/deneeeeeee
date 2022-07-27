@@ -92,8 +92,8 @@ namespace deneeeeeee
 
                 txtKullaniciAdi.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_FtpKullaniciAdi);
                 txtSifre.Text = zp.Descrypt(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_FtpSifre));
-                cmbKullPlat.SelectedIndex= Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform));
-                cmbMssqlKullan.SelectedIndex= Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_MssqlKullan));
+                cmbKullPlat.SelectedIndex = Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform));
+                cmbMssqlKullan.SelectedIndex = Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_MssqlKullan));
                 txtServiceName.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_MssqlServiceName);
                 txtMail.Text = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Mail);
                 cmbAylikTemizle.SelectedIndex = Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AylikTemizle));
@@ -237,11 +237,11 @@ namespace deneeeeeee
             }
         }
 
-        
+
 
         private void cmbMssqlKullan_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbMssqlKullan.SelectedIndex==0)
+            if (cmbMssqlKullan.SelectedIndex == 0)
             {
                 txtServiceName.Enabled = false;
                 txtServiceName.Properties.NullText = "";
@@ -252,19 +252,19 @@ namespace deneeeeeee
                 txtServiceName.Enabled = true;
                 txtServiceName.Properties.NullText = "Örn : MSSQLSERVER";
             }
-           
+
         }
 
         private void cmbKullPlat_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbKullPlat.SelectedIndex==0)
+            if (cmbKullPlat.SelectedIndex == 0)
             {
                 txtJsonIsim.Enabled = false;
-                txtMail.Enabled = false;
+                txtMail.Enabled = true;
                 txtJsonIsim.Text = "";
 
             }
-            else if (cmbKullPlat.SelectedIndex==1 || cmbKullPlat.SelectedIndex==2 )
+            else if (cmbKullPlat.SelectedIndex == 1 || cmbKullPlat.SelectedIndex == 2)
             {
                 txtJsonIsim.Enabled = true;
                 txtMail.Enabled = true;
@@ -274,13 +274,22 @@ namespace deneeeeeee
 
         private void Form1_Load(object sender, EventArgs e)
         {
-          
+
         }
 
         private void btnKlasorOlustur_Click(object sender, EventArgs e)
         {
             FtpGonderim ftp = new FtpGonderim();
-            ftp.FtpKlasorOlustur(txtFtAdresi.Text, txtKullaniciAdi.Text, txtSifre.Text, txtFTPKlasoru.Text);
+            if (txtFTPKlasoru.Text != "" && txtFTPKlasoru.Text != "")
+            {
+                ftp.FtpKlasorOlustur(txtFtAdresi.Text, txtKullaniciAdi.Text, txtSifre.Text, txtFTPKlasoru.Text);
+            }
+            else
+            {
+                MessageBox.Show("lütfen Klasör ismini ve ftp adresini giriniz");
+                return;
+            }
+
         }
 
         //private void chkOtomatik_CheckedChanged(object sender, EventArgs e)

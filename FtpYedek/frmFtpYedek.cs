@@ -1,14 +1,23 @@
-﻿using deneeeeeee.Tools;
+﻿using deneeeeeee.Busines.Workers;
+using deneeeeeee.Core.Functions;
+using deneeeeeee.DataAccess.Contexts.Yedek;
+using deneeeeeee.Tools;
+using frmLisansMusteri;
+using Google.Apis.Drive.v3;
+using Google.Apis.Drive.v3.Data;
 using GoogleDriveExample;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using Tumtek.Eklentiler;
+using Tumtek.Lisans;
 
 namespace Tumtek
 {
@@ -22,7 +31,7 @@ namespace Tumtek
         string mssqlServiceName = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_MssqlServiceName);
         string email = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Mail);
         string Json = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Json);
-        string ayinGunu = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AyinGunu)+ " " + SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AyinSaati);
+        string ayinGunu = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AyinGunu) + " " + SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AyinSaati);
         string klasor = SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_Klasor);
         Zipleme zp = new Zipleme();
         FtpGonderim ftp = new FtpGonderim();
@@ -32,14 +41,62 @@ namespace Tumtek
         bool tus4 = false;
         bool tus5 = false;
         private string ActiveParentID;
-
+        LisansEklenti lsn = new LisansEklenti();
 
         List<string> st = new List<string>();
+        private DriveService service;
 
+        string seriNo = "";
 
         public frmFtpYedek()
         {
+            
             InitializeComponent();
+            alertControl1.Show(this, "Uyarı", "Bu bir hatırlatmadır kısa süre içerisinde \n lisansınız sonlanıcaktır lütfen \n yetkilinizle Görüşün");
+
+            if (!ConnectionStringInfo.Check())
+            {
+                frmVeriTabani form = new frmVeriTabani();
+                form.ShowDialog();
+            }
+            seriNo = LisansEklenti.CPUSeriNoCek().ToString();
+            YedekWorker worker = new YedekWorker();
+            YedekContext context = new YedekContext();
+            if (context.Lisanslar.Any(c => c.LisansAdresi == seriNo))
+            {
+                if (context.Lisanslar.Any(c => c.Aktif == false))
+                {
+                    MessageBox.Show("Lütfen Lisansınızı \n Aktifleştirmek İçin Yetkilinizle görüşün");
+                    Close();
+
+                }
+                else if (context.Lisanslar.Any(c => c.Aktif == true))
+                {
+                    if (context.Lisanslar.Any(c=>c.LisansBitisTarihi==DateTime.Now))
+                    {
+                        alertControl1.Show(this, "Uyarı", "Lisans süreniz dolmuştur lütfen yetkilinizle görüşünüz");
+                        var secilen = worker.LisansService.Get(c => c.LisansAdresi == LisansEklenti.CPUSeriNoCek());
+                        secilen.Aktif = false;
+                        worker.LisansService.AddOrUpdate(secilen);
+                        worker.Commit();
+                        Close();
+                    }
+                    if (context.Lisanslar.Any(c => c.HatırlatmaTarihi <= DateTime.Now && c.LisansBitisTarihi > DateTime.Now))
+                    {
+                        alertControl1.Show(this, "Uyarı", "Bu bir hatırlatmadır kısa süre içerisinde \n lisansınız sonlanıcaktır lütfen \n yetkilinizle Görüşün");
+                    }
+                }
+
+            }
+            else
+            {
+
+                frmLisanslamaEkrani frm = new frmLisanslamaEkrani(new deneeeeeee.Entities.Tables.Lisans());
+                frm.ShowDialog();
+            }
+
+
+
             WindowState = FormWindowState.Minimized;
             string xml = @"Saat.xml";
 
@@ -48,11 +105,9 @@ namespace Tumtek
             XmlNodeList bulunanNode = xmldoc.SelectNodes("/SaatYolu/Saat");
             foreach (XmlNode secilen in bulunanNode)
             {
-
                 st.Add(secilen.InnerText);
-
-
             }
+
 
 
         }
@@ -64,7 +119,8 @@ namespace Tumtek
 
                 if (DateTime.Now.ToString("HH:mm:ss") == item.ToString())
                 {
-                    if (mssqlKullan==1)
+
+                    if (mssqlKullan == 1)
                     {
                         Zipleme.SqlStoped(mssqlServiceName);
                         FileInfo fi = new FileInfo(Application.StartupPath + "\\" + "Yollar.xml");
@@ -82,26 +138,31 @@ namespace Tumtek
                                 {
 
                                     zp.Ziple(secilen.InnerText);
-                                    ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi+"/"+klasor+"/", kullaniciAdi, hashsifre);
+                                    ftp.FtpDosyaGonder(secilen.InnerText, ftpAdresi + "/" + klasor + "/", kullaniciAdi, hashsifre);
 
                                 }
                                 mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                                MessageBox.Show("yedekleme işlemi tamamlandı");
+                                //MessageBox.Show("yedekleme işlemi tamamlandı");
+                                Zipleme.SqlStarter(mssqlServiceName);
 
                             }
                             else if (!fi.Exists)
                             {
-                                MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+                                mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                Zipleme.SqlStarter(mssqlServiceName);
+                                 MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+
                             }
                         }
                         catch (Exception ex)
                         {
 
-                            mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                            MessageBox.Show(ex.Message, "!Hata");
+                            Zipleme.SqlStarter(mssqlServiceName);
+                            mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlanamadı" + ex.Message + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                            // MessageBox.Show(ex.Message, "!Hata");
 
                         }
-                        Zipleme.SqlStarter(mssqlServiceName);
+
                     }
                     else if (mssqlKullan == 0)
                     {
@@ -124,23 +185,27 @@ namespace Tumtek
 
                                 }
                                 mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                                MessageBox.Show("yedekleme işlemi tamamlandı");
+                                //MessageBox.Show("yedekleme işlemi tamamlandı");
+
 
                             }
                             else if (!fi.Exists)
                             {
-                                MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+                                mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlanamadı Lütfen Ayarlarınızı Yapınız" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                // MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+
                             }
                         }
                         catch (Exception ex)
                         {
 
-                            mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                            MessageBox.Show(ex.Message, "!Hata");
+                            mail.Gonder("Yedekleme", "FTP Yedekleme İşlemi Tamamlanamadı" + ex.Message + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                            // MessageBox.Show(ex.Message, "!Hata");
+
 
                         }
                     }
-                   
+
                 }
             }
         }
@@ -148,46 +213,46 @@ namespace Tumtek
         private void timer1_Tick(object sender, EventArgs e)
         {
 
-            
+
 
             if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform)) == 0)
             {
 
-               
-                    if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AylikTemizle)) == 1)
+
+                if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AylikTemizle)) == 1)
+                {
+                    if (DateTime.Now.ToString("dd HH:mm:ss") == ayinGunu)
                     {
-                        if (DateTime.Now.ToString("dd HH:mm:ss") == ayinGunu)
-                        {
-                            ftp.FtpKlasorSilme(ftpAdresi, kullaniciAdi, zp.Descrypt(sifre), klasor);
-                            ftp.FtpKlasorOlustur(ftpAdresi, kullaniciAdi, zp.Descrypt(sifre), klasor);
-                        }
+                        ftp.FtpKlasorSilme(ftpAdresi, kullaniciAdi, zp.Descrypt(sifre), klasor);
+                        ftp.FtpKlasorOlustur(ftpAdresi, kullaniciAdi, zp.Descrypt(sifre), klasor);
                     }
-                    ftpyedek();
+                }
+                ftpyedek();
 
             }
             else if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform)) == 1)
             {
-                    GoogleDriveYedek();
+                GoogleDriveYedek();
             }
             else if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_KullanilacakPlatform)) == 2)
             {
-               
-                    if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AylikTemizle)) == 1)
+
+                if (Convert.ToInt32(SettingsTool.AyarOku(SettingsTool.Ayarlar.FTP_AylikTemizle)) == 1)
+                {
+                    if (DateTime.Now.ToString("dd HH:mm:ss") == ayinGunu)
                     {
-                        if (DateTime.Now.ToString("dd HH:mm:ss") == ayinGunu)
-                        {
-                            ftp.FtpKlasorSilme(ftpAdresi, kullaniciAdi, zp.Descrypt(sifre), klasor);
-                            ftp.FtpKlasorOlustur(ftpAdresi, kullaniciAdi, zp.Descrypt(sifre), klasor);
-                        }
+                        ftp.FtpKlasorSilme(ftpAdresi, kullaniciAdi, zp.Descrypt(sifre), klasor);
+                        ftp.FtpKlasorOlustur(ftpAdresi, kullaniciAdi, zp.Descrypt(sifre), klasor);
                     }
-                    
-                    hemgoglehemftp();
+                }
+
+                hemgoglehemftp();
 
             }
 
 
         }
-
+        //google drive yedekleme komutu
         private async Task<bool> UploadFile(string file)
         {
             string rootId = DriveApi.GetRootID();
@@ -198,12 +263,66 @@ namespace Tumtek
             string[] row = { uploadedFile.Name, (fileSize / 1024f).ToString("n0") + " KB", fileSize.ToString(), uploadedFile.MimeType, uploadedFile.CreatedTime?.ToString("G"), uploadedFile.Id };
             return true;
         }
+        public List<Google.Apis.Drive.v3.Data.File> GetFiles(string query = null)
+        {
+            List<Google.Apis.Drive.v3.Data.File> fileList = new List<Google.Apis.Drive.v3.Data.File>();
+            FilesResource.ListRequest request = service.Files.List();
+            request.PageSize = 1;
+            request.Q = query ?? "mimeType != \"application/vnd.google-apps.folder\"";
+
+            // hangi alanların gelmesini istiyorsak burada belirtiyoruz
+            request.Fields = "nextPageToken, files(id, name, createdTime, modifiedTime, mimeType, description, size)";
+
+            //dosyalar parça parça geliyor, her parçada nextPageToken dönüyor, nextPageToken null gelene kadar bu döngü devam eder.
+            // null dönerse tüm dosyalar çekilmiştir
+            do
+            {
+                FileList files = request.Execute();
+
+                // her partta gelen dosyaları fileList listesine ekliyoruz
+                fileList.AddRange(files.Files);
+                request.PageToken = files.NextPageToken;
+
+            } while (!string.IsNullOrEmpty(request.PageToken));
+
+            return fileList;
+        }
+        public string CreateFolderAndGetID(string folderName, string parentId = null)
+        {
+            string query = $"mimeType = \"application/vnd.google-apps.folder\" and name = \"{folderName}\"";
+            List<Google.Apis.Drive.v3.Data.File> result = GetFiles(query);
+            Google.Apis.Drive.v3.Data.File file = result.FirstOrDefault();
+
+            if (file != null)
+            {
+                return file.Id;
+            }
+            else
+            {
+                file = new Google.Apis.Drive.v3.Data.File
+                {
+                    Name = folderName,
+                    MimeType = "application/vnd.google-apps.folder"
+                };
+
+                if (parentId != null)
+                {
+                    file.Parents = new List<string> { parentId };
+                }
+
+                var request = service.Files.Create(file);
+                request.Fields = "id";
+                var response = request.Execute();
+                return response.Id;
+            }
+        }
+
         public async void hemgoglehemftp()
         {
             if (mssqlKullan == 1)
             {
-             
-                
+
+
                 DriveApi = GoogleDriveAPI.GetInstance();
                 try
                 {
@@ -237,20 +356,20 @@ namespace Tumtek
                                     }
                                     mail.Gonder("Yedekleme", "Google Drive ve FTP Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
                                     Zipleme.SqlStarter(mssqlServiceName);
-                                    MessageBox.Show("drive yedekleme işlemi tamamlandı");
+                                    //  MessageBox.Show("Google Drive ve Ftp yedekleme işlemi tamamlandı");
                                 }
                                 else if (!fi.Exists)
                                 {
-                                    mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                    mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı Ayarlarınızı Kontrol Ediniz" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
                                     Zipleme.SqlStarter(mssqlServiceName);
-                                    MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+                                    //  MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
                                 }
                             }
                             catch (Exception ex)
                             {
-                                mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı" + ex.Message + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
                                 Zipleme.SqlStarter(mssqlServiceName);
-                                MessageBox.Show(ex.Message, "!Hata");
+                                //MessageBox.Show(ex.Message, "!Hata");
                             }
                         }
                     }
@@ -259,11 +378,11 @@ namespace Tumtek
                 }
                 catch (Exception ex)
                 {
-                    mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                    mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı Hata!" + ex.Message + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
                     Zipleme.SqlStarter(mssqlServiceName);
-                    MessageBox.Show(ex.Message);
+                    //MessageBox.Show(ex.Message);
                 }
-               
+
             }
             else if (mssqlKullan == 0)
             {
@@ -298,18 +417,18 @@ namespace Tumtek
 
                                     }
                                     mail.Gonder("Yedekleme", "Google Drive ve FTP Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                                    MessageBox.Show("drive yedekleme işlemi tamamlandı");
+                                    // MessageBox.Show("drive yedekleme işlemi tamamlandı");
                                 }
                                 else if (!fi.Exists)
                                 {
-                                    mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                                    MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+                                    mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı Lütfen Ayarlarınızı Yapın" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                    // MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
                                 }
                             }
                             catch (Exception ex)
                             {
-                                mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                                MessageBox.Show(ex.Message, "!Hata");
+                                mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı Hata!" + ex.Message + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                //  MessageBox.Show(ex.Message, "!Hata");
                             }
                         }
                     }
@@ -318,18 +437,18 @@ namespace Tumtek
                 }
                 catch (Exception ex)
                 {
-                    mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                    MessageBox.Show(ex.Message);
+                    mail.Gonder("Yedekleme", "FTP veya Google Drive Yedekleme İşlemi Tamamlanamadı Hata 2 !" + ex.Message + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                    // MessageBox.Show(ex.Message);
                 }
             }
-           
+
         }
         public GoogleDriveAPI DriveApi;
         public async void GoogleDriveYedek()
         {
             if (mssqlKullan == 1)
             {
-                
+
                 DriveApi = GoogleDriveAPI.GetInstance();
                 try
                 {
@@ -360,21 +479,21 @@ namespace Tumtek
 
                                     }
                                     mail.Gonder("Yedekleme", "Google Drive Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                                    MessageBox.Show("drive yedekleme işlemi tamamlandı");
+                                    // MessageBox.Show("drive yedekleme işlemi tamamlandı");
                                     Zipleme.SqlStarter(mssqlServiceName);
 
                                 }
                                 else if (!fi.Exists)
                                 {
-                                    mail.Gonder("Yedekleme", "Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                                    MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+                                    mail.Gonder("Yedekleme", "Google Drive Yedekleme İşlemi Tamamlanamadı Lütfen Ayarlarınızı Yapın" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                    //  MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
                                     Zipleme.SqlStarter(mssqlServiceName);
                                 }
                             }
                             catch (Exception ex)
                             {
-                                mail.Gonder("Yedekleme", "Google Drive yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                                MessageBox.Show(ex.Message, "!Hata");
+                                mail.Gonder("Yedekleme", "Google Drive yedekleme İşlemi Tamamlanamadı Hata !" + ex.Message + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                // MessageBox.Show(ex.Message, "!Hata");
                                 Zipleme.SqlStarter(mssqlServiceName);
                             }
                         }
@@ -384,10 +503,11 @@ namespace Tumtek
                 }
                 catch (Exception ex)
                 {
-
-                    MessageBox.Show(ex.Message);
+                    mail.Gonder("Yedekleme", "Google Drive yedekleme İşlemi Tamamlanamadı Hata !" + ex.Message + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                    // MessageBox.Show(ex.Message);
+                    Zipleme.SqlStarter(mssqlServiceName);
                 }
-                
+
             }
             else if (mssqlKullan == 0)
             {
@@ -420,19 +540,19 @@ namespace Tumtek
 
                                     }
                                     mail.Gonder("Yedekleme", "Google Drive Yedekleme İşlemi Tamamlandı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                                    MessageBox.Show("drive yedekleme işlemi tamamlandı");
+                                    // MessageBox.Show("drive yedekleme işlemi tamamlandı");
 
                                 }
                                 else if (!fi.Exists)
                                 {
-                                    mail.Gonder("Yedekleme", "Google Drive Yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                                    MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
+                                    mail.Gonder("Yedekleme", "Google Drive Yedekleme İşlemi Tamamlanamadı Lütfen Ayarlarınızı Yapınız" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                    // MessageBox.Show("Lütefen Ayarlarınızı Yapınız");
                                 }
                             }
                             catch (Exception ex)
                             {
-                                mail.Gonder("Yedekleme", "Google Drive yedekleme İşlemi Tamamlanamadı" + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
-                                MessageBox.Show(ex.Message, "!Hata");
+                                mail.Gonder("Yedekleme", "Google Drive yedekleme İşlemi Tamamlanamadı Hata!" + ex.Message + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                                // MessageBox.Show(ex.Message, "!Hata");
                             }
                         }
                     }
@@ -441,11 +561,11 @@ namespace Tumtek
                 }
                 catch (Exception ex)
                 {
-
-                    MessageBox.Show(ex.Message);
+                    mail.Gonder("Yedekleme", "Google Drive yedekleme İşlemi Tamamlanamadı Hata 2 " + ex.Message + "\n" + DateTime.Now.ToString("yy-MM-dd HH:mm:ss"), email);
+                    //  MessageBox.Show(ex.Message);
                 }
             }
-            
+
 
 
 

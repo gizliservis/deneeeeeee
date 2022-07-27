@@ -29,16 +29,16 @@ namespace deneeeeeee
         /// </summary>
         private void InitializeComponent()
         {
+            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions2 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject5 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject6 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject7 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject8 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions3 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject9 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject10 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject11 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject12 = new DevExpress.Utils.SerializableAppearanceObject();
             this.btnKaydet = new DevExpress.XtraEditors.SimpleButton();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.txtDosyaYolu = new DevExpress.XtraEditors.ButtonEdit();
@@ -53,6 +53,7 @@ namespace deneeeeeee
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
             this.lstEklenecekDosyalar = new DevExpress.XtraEditors.ListBoxControl();
             this.groupControl3 = new DevExpress.XtraEditors.GroupControl();
+            this.btnKlasorOlustur = new DevExpress.XtraEditors.SimpleButton();
             this.dtAySaat = new DevExpress.XtraEditors.DateEdit();
             this.cmbAylikTemizle = new DevExpress.XtraEditors.ComboBoxEdit();
             this.cmbMssqlKullan = new DevExpress.XtraEditors.ComboBoxEdit();
@@ -70,17 +71,16 @@ namespace deneeeeeee
             this.txtMail = new DevExpress.XtraEditors.TextEdit();
             this.txtJsonIsim = new DevExpress.XtraEditors.TextEdit();
             this.labelControl15 = new DevExpress.XtraEditors.LabelControl();
+            this.txtFTPKlasoru = new DevExpress.XtraEditors.TextEdit();
             this.labelControl11 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl16 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl8 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl12 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl10 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl17 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl14 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl13 = new DevExpress.XtraEditors.LabelControl();
             this.cmbAyinGunu = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.txtFTPKlasoru = new DevExpress.XtraEditors.TextEdit();
-            this.labelControl17 = new DevExpress.XtraEditors.LabelControl();
-            this.btnKlasorOlustur = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.txtDosyaYolu.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFtAdresi.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtKullaniciAdi.Properties)).BeginInit();
@@ -107,8 +107,8 @@ namespace deneeeeeee
             ((System.ComponentModel.ISupportInitialize)(this.txtServiceName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMail.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtJsonIsim.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmbAyinGunu.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFTPKlasoru.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbAyinGunu.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // btnKaydet
@@ -201,7 +201,7 @@ namespace deneeeeeee
             // listBoxControl1
             // 
             this.listBoxControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.listBoxControl1.Location = new System.Drawing.Point(2, 23);
+            this.listBoxControl1.Location = new System.Drawing.Point(2, 20);
             this.listBoxControl1.Name = "listBoxControl1";
             this.listBoxControl1.Size = new System.Drawing.Size(540, 190);
             this.listBoxControl1.TabIndex = 3;
@@ -221,18 +221,18 @@ namespace deneeeeeee
             // 
             this.groupControl2.Controls.Add(this.lstEklenecekDosyalar);
             this.groupControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupControl2.Location = new System.Drawing.Point(2, 213);
+            this.groupControl2.Location = new System.Drawing.Point(2, 210);
             this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(540, 249);
+            this.groupControl2.Size = new System.Drawing.Size(540, 252);
             this.groupControl2.TabIndex = 4;
             this.groupControl2.Text = "Eklenecek Dosyalar";
             // 
             // lstEklenecekDosyalar
             // 
             this.lstEklenecekDosyalar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstEklenecekDosyalar.Location = new System.Drawing.Point(2, 23);
+            this.lstEklenecekDosyalar.Location = new System.Drawing.Point(2, 20);
             this.lstEklenecekDosyalar.Name = "lstEklenecekDosyalar";
-            this.lstEklenecekDosyalar.Size = new System.Drawing.Size(536, 224);
+            this.lstEklenecekDosyalar.Size = new System.Drawing.Size(536, 230);
             this.lstEklenecekDosyalar.TabIndex = 4;
             // 
             // groupControl3
@@ -274,13 +274,22 @@ namespace deneeeeeee
             this.groupControl3.TabIndex = 4;
             this.groupControl3.Text = "Ftp Ayarları";
             // 
+            // btnKlasorOlustur
+            // 
+            this.btnKlasorOlustur.Location = new System.Drawing.Point(371, 73);
+            this.btnKlasorOlustur.Name = "btnKlasorOlustur";
+            this.btnKlasorOlustur.Size = new System.Drawing.Size(76, 23);
+            this.btnKlasorOlustur.TabIndex = 10;
+            this.btnKlasorOlustur.Text = "Klasör Oluştur";
+            this.btnKlasorOlustur.Click += new System.EventHandler(this.btnKlasorOlustur_Click);
+            // 
             // dtAySaat
             // 
             this.dtAySaat.EditValue = null;
             this.dtAySaat.Location = new System.Drawing.Point(348, 282);
             this.dtAySaat.Name = "dtAySaat";
             this.dtAySaat.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, editorButtonImageOptions2, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject5, serializableAppearanceObject6, serializableAppearanceObject7, serializableAppearanceObject8, "", null, null, DevExpress.Utils.ToolTipAnchor.Default)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "", null, null, DevExpress.Utils.ToolTipAnchor.Default)});
             this.dtAySaat.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.dtAySaat.Properties.DisplayFormat.FormatString = "HH:mm:ss";
@@ -368,7 +377,7 @@ namespace deneeeeeee
             this.dateEdit1.Location = new System.Drawing.Point(215, 56);
             this.dateEdit1.Name = "dateEdit1";
             this.dateEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, editorButtonImageOptions3, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject9, serializableAppearanceObject10, serializableAppearanceObject11, serializableAppearanceObject12, "", null, null, DevExpress.Utils.ToolTipAnchor.Default)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, editorButtonImageOptions2, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject5, serializableAppearanceObject6, serializableAppearanceObject7, serializableAppearanceObject8, "", null, null, DevExpress.Utils.ToolTipAnchor.Default)});
             this.dateEdit1.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.dateEdit1.Properties.DisplayFormat.FormatString = "HH:mm:ss";
@@ -447,7 +456,6 @@ namespace deneeeeeee
             // 
             // txtMail
             // 
-            this.txtMail.Enabled = false;
             this.txtMail.Location = new System.Drawing.Point(123, 200);
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(398, 20);
@@ -471,6 +479,14 @@ namespace deneeeeeee
             this.labelControl15.Size = new System.Drawing.Size(80, 13);
             this.labelControl15.TabIndex = 2;
             this.labelControl15.Text = "Aylık Temizle :";
+            // 
+            // txtFTPKlasoru
+            // 
+            this.txtFTPKlasoru.EditValue = "";
+            this.txtFTPKlasoru.Location = new System.Drawing.Point(123, 75);
+            this.txtFTPKlasoru.Name = "txtFTPKlasoru";
+            this.txtFTPKlasoru.Size = new System.Drawing.Size(242, 20);
+            this.txtFTPKlasoru.TabIndex = 1;
             // 
             // labelControl11
             // 
@@ -530,6 +546,17 @@ namespace deneeeeeee
             this.labelControl10.TabIndex = 2;
             this.labelControl10.Text = "Sql Servis İsmi :";
             // 
+            // labelControl17
+            // 
+            this.labelControl17.Appearance.Options.UseTextOptions = true;
+            this.labelControl17.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.labelControl17.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+            this.labelControl17.Location = new System.Drawing.Point(6, 78);
+            this.labelControl17.Name = "labelControl17";
+            this.labelControl17.Size = new System.Drawing.Size(112, 13);
+            this.labelControl17.TabIndex = 2;
+            this.labelControl17.Text = "Ftp Klasörü :";
+            // 
             // labelControl14
             // 
             this.labelControl14.Appearance.Options.UseTextOptions = true;
@@ -554,7 +581,7 @@ namespace deneeeeeee
             // 
             // cmbAyinGunu
             // 
-            this.cmbAyinGunu.EditValue = "1";
+            this.cmbAyinGunu.EditValue = "01";
             this.cmbAyinGunu.Location = new System.Drawing.Point(348, 256);
             this.cmbAyinGunu.Name = "cmbAyinGunu";
             this.cmbAyinGunu.Properties.Appearance.Options.UseTextOptions = true;
@@ -562,15 +589,15 @@ namespace deneeeeeee
             this.cmbAyinGunu.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.cmbAyinGunu.Properties.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
             "10",
             "11",
             "12",
@@ -594,34 +621,6 @@ namespace deneeeeeee
             "30"});
             this.cmbAyinGunu.Size = new System.Drawing.Size(88, 20);
             this.cmbAyinGunu.TabIndex = 1;
-            // 
-            // txtFTPKlasoru
-            // 
-            this.txtFTPKlasoru.EditValue = "ftp://yedekleme.tumteknoloji.com.tr/";
-            this.txtFTPKlasoru.Location = new System.Drawing.Point(123, 75);
-            this.txtFTPKlasoru.Name = "txtFTPKlasoru";
-            this.txtFTPKlasoru.Size = new System.Drawing.Size(242, 20);
-            this.txtFTPKlasoru.TabIndex = 1;
-            // 
-            // labelControl17
-            // 
-            this.labelControl17.Appearance.Options.UseTextOptions = true;
-            this.labelControl17.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labelControl17.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.labelControl17.Location = new System.Drawing.Point(6, 78);
-            this.labelControl17.Name = "labelControl17";
-            this.labelControl17.Size = new System.Drawing.Size(112, 13);
-            this.labelControl17.TabIndex = 2;
-            this.labelControl17.Text = "Ftp Klasörü :";
-            // 
-            // btnKlasorOlustur
-            // 
-            this.btnKlasorOlustur.Location = new System.Drawing.Point(371, 73);
-            this.btnKlasorOlustur.Name = "btnKlasorOlustur";
-            this.btnKlasorOlustur.Size = new System.Drawing.Size(76, 23);
-            this.btnKlasorOlustur.TabIndex = 10;
-            this.btnKlasorOlustur.Text = "Klasör Oluştur";
-            this.btnKlasorOlustur.Click += new System.EventHandler(this.btnKlasorOlustur_Click);
             // 
             // Form1
             // 
@@ -662,8 +661,8 @@ namespace deneeeeeee
             ((System.ComponentModel.ISupportInitialize)(this.txtServiceName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMail.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtJsonIsim.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmbAyinGunu.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFTPKlasoru.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbAyinGunu.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }

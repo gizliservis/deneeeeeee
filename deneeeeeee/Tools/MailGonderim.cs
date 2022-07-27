@@ -12,7 +12,7 @@ namespace deneeeeeee.Tools
         public bool Gonder(string konu, string icerik, string GondMail)
         {
             MailMessage ePosta = new MailMessage();
-            ePosta.From = new MailAddress("icb_1998@hotmail.com");
+            ePosta.From = new MailAddress("yedekleme@tumteknoloji.com.tr");
             //
             ePosta.To.Add(GondMail);
             //ePosta.To.Add("eposta2@gmail.com");
@@ -21,17 +21,18 @@ namespace deneeeeeee.Tools
             //ePosta.Attachments.Add(new Attachment(@"C:\deneme-upload.jpg"));
             ePosta.Subject = konu;
             ePosta.Body = icerik;
-            SmtpClient smtp = new SmtpClient("outlook.com");
-            smtp.Credentials = new System.Net.NetworkCredential("icb_1998@hotmail.com", "Cib_17421");
+            SmtpClient smtp = new SmtpClient();
             smtp.Port = 587;
-            smtp.Host = "smtp.office365.com";
+            smtp.Host = "smtp.yandex.com";
             smtp.EnableSsl = true;
+            smtp.Credentials = new System.Net.NetworkCredential("yedekleme@tumteknoloji.com.tr", "Abc123+-*q1-");
+         
            // object userState = ePosta;
             bool kontrol = true;
             try
             {
-                 smtp.SendAsync(ePosta, (object)ePosta);
-               // smtp.Send(ePosta);
+                // smtp.SendAsync(ePosta, (object)ePosta);
+               smtp.Send(ePosta);
 
             }
             catch (SmtpException ex)

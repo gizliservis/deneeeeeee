@@ -33,6 +33,7 @@ namespace Tumtek
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.oneGetirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.alertControl1 = new DevExpress.XtraBars.Alerter.AlertControl(this.components);
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,5 +80,6 @@ namespace Tumtek
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem oneGetirToolStripMenuItem;
+        private DevExpress.XtraBars.Alerter.AlertControl alertControl1;
     }
 }

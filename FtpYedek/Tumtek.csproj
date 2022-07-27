@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -12,6 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -44,7 +47,17 @@
     <Reference Include="DevExpress.Data.v20.1, Version=20.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Printing.v20.1.Core, Version=20.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Utils.v20.1, Version=20.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraBars.v20.1, Version=20.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraEditors.v20.1, Version=20.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGrid.v20.1, Version=20.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v20.1, Version=20.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPrinting.v20.1, Version=20.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Google.Apis, Version=1.55.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.1.55.0\lib\net45\Google.Apis.dll</HintPath>
     </Reference>
@@ -70,7 +83,9 @@
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
@@ -89,6 +104,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Eklentiler\LisansEklenti.cs" />
     <Compile Include="frmFtpYedek.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,11 +112,30 @@
       <DependentUpon>frmFtpYedek.cs</DependentUpon>
     </Compile>
     <Compile Include="GoogleSiniflari\GoogleDriveAPI.cs" />
+    <Compile Include="Lisanslar\frmLisanslamaEkrani.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lisanslar\frmLisanslamaEkrani.Designer.cs">
+      <DependentUpon>frmLisanslamaEkrani.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Lisanslar\frmMusteriSec.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lisanslar\frmMusteriSec.Designer.cs">
+      <DependentUpon>frmMusteriSec.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmFtpYedek.resx">
       <DependentUpon>frmFtpYedek.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Lisanslar\frmLisanslamaEkrani.resx">
+      <DependentUpon>frmLisanslamaEkrani.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lisanslar\frmMusteriSec.resx">
+      <DependentUpon>frmMusteriSec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -112,6 +147,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\deneeeeeee.Entities.Tables.Musteri.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -126,11 +162,39 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\deneeeeeee.Busines\deneeeeeee.Busines.csproj">
+      <Project>{14E10F71-7DD8-431B-A721-542205FF5566}</Project>
+      <Name>deneeeeeee.Busines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\deneeeeeee.Core\deneeeeeee.Core.csproj">
+      <Project>{F8F3E88B-1364-44AA-9B9E-5D33E5392F9A}</Project>
+      <Name>deneeeeeee.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\deneeeeeee.DataAccess\deneeeeeee.DataAccess.csproj">
+      <Project>{A80316D1-8D1E-406A-BAED-CF17D4B0946A}</Project>
+      <Name>deneeeeeee.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\deneeeeeee.Entities\deneeeeeee.Entities.csproj">
+      <Project>{3BD5985B-1DC8-4611-8EC4-CC20EF6253E1}</Project>
+      <Name>deneeeeeee.Entities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\deneeeeeee\deneeeeeee.csproj">
       <Project>{A88E7CDA-F15B-4481-ABA6-B87C7F5C9370}</Project>
       <Name>deneeeeeee</Name>
     </ProjectReference>
+    <ProjectReference Include="..\frmLisansMusteri\frmLisansMusteri.csproj">
+      <Project>{5B623AE1-550C-4FC7-B5B8-AE5F6290B02B}</Project>
+      <Name>frmLisansMusteri</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Bu proje bu bilgisayarda olmayan NuGet paketlerine başvuru yapıyor. Bunları indirmek için NuGet Paket Geri Yükleme'yi kullanın. Daha fazla bilgi için, bkz. http://go.microsoft.com/fwlink/?LinkID=322105. Eksik dosya: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
 </Project>
